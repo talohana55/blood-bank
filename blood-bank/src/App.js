@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import axios from 'axios';
-import BloodReception from './components/BloodReception';
-import RoutineDispense from './components/dispenseBlood';
-import EmergencyDispense from './components/EmergencyDispense';
-import NavBar from './components/NavBar';
+import { HashRouter as Router, Route, Routes } from "react-router-dom";
+
+import BloodReception from './Routes/BloodReception';
+import RoutineDispense from './Routes/routineDispense';
+import EmergencyDispense from './Routes/EmergencyDispense';
+import NavBar from './Components/NavBar';
+
+
 function App() {
-  const [selectedComponent, setSelectedComponent] = useState('');
 
   useEffect(() => {
     axios.get('http://localhost:5000/')
@@ -14,26 +17,18 @@ function App() {
   }, []);
 
   return (
-    <div className="app">
-      <NavBar></NavBar>
-      <div className="component-selector">
-        <button onClick={() => setSelectedComponent('reception')}>
-          Blood Reception
-        </button>
-        <button onClick={() => setSelectedComponent('routine')}>
-          Routine Dispense
-        </button>
-        <button onClick={() => setSelectedComponent('emergency')}>
-          Emergency Dispense
-        </button>
+    <Router>
+      <div className="app">
+        {/* <NavBar /> */}
+        <main className="container-app">
+          <Routes>
+            <Route element={<BloodReception />} path="/bloodReception" />
+            <Route element={<RoutineDispense />} path="/routineDispense" />
+            <Route element={<EmergencyDispense />} path="/emergencyDispense" />
+          </Routes>
+        </main>
       </div>
-
-      <div className="selected-component">
-        {selectedComponent === 'reception' && <BloodReception />}
-        {selectedComponent === 'routine' && <RoutineDispense />}
-        {selectedComponent === 'emergency' && <EmergencyDispense />}
-      </div>
-    </div>
+    </Router>
   );
 }
 

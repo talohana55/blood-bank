@@ -15,11 +15,16 @@ app.use(express.static(__dirname + "/blood-bank/dist/blood-bank"));
 
 // All Routes
 const bloodUnitsRoutes = require("./routes/bloodUnitRoutes")
+const bloodTransactionsRoutes = require("./routes/bloodTransactionRoutes")
 const donorsRoutes = require("./routes/donorRoutes")
+const recipientRoutes = require("./routes/recipientRoutes")
+
 
 // Use routes
 app.use(bloodUnitsRoutes)
+app.use(bloodTransactionsRoutes)
 app.use(donorsRoutes)
+app.use(recipientRoutes)
 
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");

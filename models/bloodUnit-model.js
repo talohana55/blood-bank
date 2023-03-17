@@ -9,15 +9,7 @@ const BloodUnitSchema = new Schema({
     },
     bloodType: {
         type: String,
-        enum: ['A+', 'O+', 'B+', 'AB+', 'A-', 'O-', 'B-', 'AB-' ],
-        required: true,
-    },
-    donorId: {
-        type: String,
-        required: true,
-    },
-    recipientId: {
-        type: String,
+        enum: ['A+', 'O+', 'B+', 'AB+', 'A-', 'O-', 'B-', 'AB-'],
         required: true,
     },
     collectionDate: {
