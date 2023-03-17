@@ -19,7 +19,7 @@ function App() {
   return (
     <Router>
       <div className="app">
-        {/* <NavBar /> */}
+        <NavBar />
         <main className="container-app">
           <Routes>
             <Route element={<BloodReception />} path="/bloodReception" />
