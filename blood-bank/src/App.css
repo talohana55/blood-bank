@@ -1,7 +1,8 @@
 .app {
   display: flex;
   flex-direction: column;
-  align-items: center;
+  justify-content: center; /* center items horizontally */
+  align-items: center; /* center items vertically */
 }
 
 .component-selector {
