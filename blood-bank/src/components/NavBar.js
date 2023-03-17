@@ -1,21 +1,26 @@
-import React from 'react'
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
-import NavDropdown from 'react-bootstrap/NavDropdown';
-import BloodReception from '../Routes/BloodReception';
-import RoutineDispense from '../Routes/routineDispense';
-import EmergencyDispense from '../Routes/EmergencyDispense';
+import React from "react";
+import Container from "react-bootstrap/Container";
+import Nav from "react-bootstrap/Nav";
+import { Link } from "react-router-dom";
+import Navbar from "react-bootstrap/Navbar";
+import NavDropdown from "react-bootstrap/NavDropdown";
+import BloodReception from "../Routes/BloodReception";
+import RoutineDispense from "../Routes/routineDispense";
+import EmergencyDispense from "../Routes/EmergencyDispense";
+
 const NavBar = () => {
     return (
         <Navbar bg="light" expand="lg">
             <Container>
-                <Navbar.Brand href="#home">Blood Bank</Navbar.Brand>
+                <Navbar.Brand href="/home">React-Bootstrap</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="me-auto">
-                        <Nav.Link href="#home">Home</Nav.Link>
-                        <Nav.Link href="/bloodReception">BloodReception</Nav.Link>
+                        <Nav.Link as={Link} to="/bloodReception">Blood Reception</Nav.Link>
+                        <Nav.Link as={Link} to="/routineDispense">Routine Dispense</Nav.Link>
+                        <Nav.Link as={Link} to="/emergencyDispense">Emergency</Nav.Link>
+
+                        {/* <Nav.Link to="/routineDispense">routineDispense</Nav.Link> */}
                         <NavDropdown title="Dropdown" id="basic-nav-dropdown">
                             <NavDropdown.Item href="#action/3.1">Action</NavDropdown.Item>
                             <NavDropdown.Item href="#action/3.2">
@@ -31,7 +36,8 @@ const NavBar = () => {
                 </Navbar.Collapse>
             </Container>
         </Navbar>
-    )
-}
+    );
+};
 
-export default NavBar
+
+export default NavBar;
