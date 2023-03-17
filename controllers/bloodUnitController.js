@@ -1,75 +1,85 @@
-const BloodUnit = require('../models/bloodUnit-model');
+const BloodUnit = require("../models/bloodUnit-model");
+const { ObjectId } = require("mongodb");
 
 // GET all blood units
 exports.getAllBloodUnits = async (req, res) => {
-    try {
-        const bloodUnits = await BloodUnit.find();
-        res.status(200).json(bloodUnits);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+  try {
+    const bloodUnits = await BloodUnit.find();
+    if (bloodUnits.length) {
+      res.status(200).json(bloodUnits);
+    } else {
+      res.status(200).json([]);
     }
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
 };
 
 // GET a single blood unit by ID
 exports.getBloodUnitById = async (req, res) => {
-    try {
-        const bloodUnit = await BloodUnit.findById(req.params.cid);
-        if (!bloodUnit) {
-            return res.status(404).json({ message: 'Blood unit not found' });
-        }
-        res.status(200).json(bloodUnit);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+  try {
+    const { id } = req.body;
+    const bloodUnit = await BloodUnit.findOne({ cid: id });
+    if (bloodUnit) {
+      res.status(200).json(bloodUnit);
+    } else {
+      res.status(200).json();
     }
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
 };
 
 // POST a new blood unit
 exports.createBloodUnit = async (req, res) => {
+  try {
+    var objectId = new ObjectId();
     const bloodUnit = new BloodUnit({
-        bloodType: req.body.bloodType,
-        collectionDate: req.body.collectionDate,
-        expiryDate: req.body.expiryDate,
-        isFrozen: req.body.isFrozen
+      cid: objectId,
+      collectionDate: new Date(req.body.collectionDate),
+      expiryDate: new Date(req.body.expiryDate),
+      ...req.body,
     });
-
-    try {
-        const newBloodUnit = await bloodUnit.save();
-        res.status(201).json(newBloodUnit);
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
+    await bloodUnit.save();
+    res.status(201).json(bloodUnit);
+  } catch (error) {
+    res.status(400).json({ message: error.message });
+  }
 };
 
 // PUT (update) an existing blood unit by ID
 exports.updateBloodUnitById = async (req, res) => {
-    try {
-        const bloodUnit = await BloodUnit.findById(req.params.cid);
-        if (!bloodUnit) {
-            return res.status(404).json({ message: 'Blood unit not found' });
-        }
-
-        bloodUnit.bloodType = req.body.bloodType || bloodUnit.bloodType;
-        bloodUnit.collectionDate = req.body.collectionDate || bloodUnit.collectionDate;
-        bloodUnit.expiryDate = req.body.expiryDate || bloodUnit.expiryDate;
-        bloodUnit.isFrozen = req.body.isFrozen || bloodUnit.isFrozen;
-
-        const updatedBloodUnit = await bloodUnit.save();
-        res.status(200).json(updatedBloodUnit);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+  try {
+    const bloodUnit = await BloodUnit.findOneAndUpdate(
+      { cid: req.body.cid },
+      { ...req.body },
+      { new: true }
+    );
+    if (bloodUnit) {
+      console.log("OK!");
+      res.status(200).json("Blood Unit updated successfully!");
+    } else {
+      console.log("problem");
+      res.status(404).json({ message: err.message });
     }
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
 };
 
 // DELETE a blood unit by ID
 exports.deleteBloodUnitById = async (req, res) => {
-    try {
-        const bloodUnit = await BloodUnit.findById(req.params.cid);
-        if (!bloodUnit) {
-            return res.status(404).json({ message: 'Blood unit not found' });
-        }
-        await bloodUnit.remove();
-        res.status(200).json({ message: 'Blood unit deleted successfully' });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+  try {
+    const { cid } = req.body;
+    const bloodUnit = await BloodUnit.deleteOne({ cid: cid });
+    if (bloodUnit.deletedCount === 1) {
+      console.log("OK!");
+      res.status(200).json("Blood Unit removed successfully!");
+    } else {
+      console.log("problem");
+      res.status(404).json({ message: err.message });
     }
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
 };
