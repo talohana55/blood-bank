@@ -40,7 +40,7 @@ const DonorSchema = new mongoose.Schema(
             type: String,
             required: true,
         },
-        donations: [{ type: Schema.Types.ObjectId, ref: 'BloodUnitSchema' }]
+        transactions: [{ type: Schema.Types.ObjectId, ref: 'BloodTransactionSchema' }]
 
     }
 )

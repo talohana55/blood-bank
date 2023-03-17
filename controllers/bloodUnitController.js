@@ -27,8 +27,6 @@ exports.getBloodUnitById = async (req, res) => {
 exports.createBloodUnit = async (req, res) => {
     const bloodUnit = new BloodUnit({
         bloodType: req.body.bloodType,
-        donorId: req.body.donorId,
-        recipientId: req.body.recipientId,
         collectionDate: req.body.collectionDate,
         expiryDate: req.body.expiryDate,
         isFrozen: req.body.isFrozen
@@ -51,8 +49,6 @@ exports.updateBloodUnitById = async (req, res) => {
         }
 
         bloodUnit.bloodType = req.body.bloodType || bloodUnit.bloodType;
-        bloodUnit.donorId = req.body.donorId || bloodUnit.donorId;
-        bloodUnit.recipientId = req.body.recipientId || bloodUnit.recipientId;
         bloodUnit.collectionDate = req.body.collectionDate || bloodUnit.collectionDate;
         bloodUnit.expiryDate = req.body.expiryDate || bloodUnit.expiryDate;
         bloodUnit.isFrozen = req.body.isFrozen || bloodUnit.isFrozen;
