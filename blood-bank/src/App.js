@@ -3,6 +3,7 @@ import axios from 'axios';
 import BloodReception from './components/BloodReception';
 import RoutineDispense from './components/dispenseBlood';
 import EmergencyDispense from './components/EmergencyDispense';
+import NavBar from './components/NavBar';
 function App() {
   const [selectedComponent, setSelectedComponent] = useState('');
 
@@ -14,6 +15,7 @@ function App() {
 
   return (
     <div className="app">
+      <NavBar></NavBar>
       <div className="component-selector">
         <button onClick={() => setSelectedComponent('reception')}>
           Blood Reception

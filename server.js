@@ -34,6 +34,8 @@ app.use(function (req, res, next) {
 
 
 require("dotenv").config();
+// Set the `strictQuery` option to `false`
+mongoose.set('strictQuery', false);
 const uri = process.env.MONGO_URI;
 async function connect() {
     try {
