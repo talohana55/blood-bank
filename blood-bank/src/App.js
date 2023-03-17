@@ -3,7 +3,7 @@ import axios from "axios";
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
 
 import BloodReception from "./Routes/BloodReception";
-import RoutineDispense from "./Routes/routineDispense";
+import RoutineDispense from "./Routes/RoutineDispense";
 import EmergencyDispense from "./Routes/EmergencyDispense";
 import NavBar from "./Components/NavBar";
 import HomePage from "./Routes/HomePage";

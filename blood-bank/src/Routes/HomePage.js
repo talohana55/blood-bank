@@ -1,7 +1,28 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import Table from "react-bootstrap/Table";
+import axios from "axios";
 
 const HomePage = () => {
+  const [bloodUnits, setBloodUnits] = useState([]);
+
+  const getAllBloodUnits = async () => {
+    try {
+      const response = await axios.get(
+        "http://localhost:8080/api/bloodUnits/get"
+      );
+      if (response.data) {
+        console.log(response.data);
+        setBloodUnits(response.data);
+      }
+
+    } catch (err) {
+      console.error(err);
+    }
+  };
+  useEffect(() => {
+    getAllBloodUnits();
+  }, []);
+
   return (
     <div className="homePage-container">
       <div className="table-container">
@@ -10,16 +31,22 @@ const HomePage = () => {
           <thead>
             <tr>
               <th>Blood Type</th>
-              <th>Donate Blood To</th>
-              <th>Receive Blood From</th>
+              <th>Collection Date</th>
+              <th>Expiry Date</th>
+              <th>Is Frozen</th>
+              <th>Units</th>
             </tr>
           </thead>
           <tbody>
-            <tr>
-              <td>A+</td>
-              <td>B O AB</td>
-              <td>B O AB</td>
-            </tr>
+            {bloodUnits.map((item) => {
+              <tr key={item.cid}>
+                <td>{item.bloodType}</td>
+                <td>{item.collectionDate}</td>
+                <td>{item.expiryDate}</td>
+                <td>{item.isFrozen}</td>
+                <td>{item.units}</td>
+              </tr>;
+            })}
           </tbody>
         </Table>
       </div>

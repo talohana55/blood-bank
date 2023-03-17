@@ -1,73 +1,82 @@
-const BloodTransaction = require('../models/bloodTransaction-model');
+const BloodTransaction = require("../models/bloodTransaction-model");
 
 // GET all blood units
 exports.getAllBloodTransaction = async (req, res) => {
-    try {
-        const bloodTransaction = await BloodTransaction.find();
-        res.status(200).json(bloodTransaction);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+  try {
+    const bloodTransaction = await BloodTransaction.find();
+    if (bloodTransaction.length) {
+      res.status(200).json(bloodTransaction);
+    } else {
+      res.status(200).json([]);
     }
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
 };
 
 // GET a single blood unit by ID
 exports.getBloodTransactionById = async (req, res) => {
-    try {
-        const bloodTransaction = await BloodTransaction.findById(req.params.cid);
-        if (!bloodTransaction) {
-            return res.status(404).json({ message: 'Blood unit not found' });
-        }
-        res.status(200).json(bloodTransaction);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+  try {
+    const { id } = req.body;
+    const bloodTransaction = await BloodTransaction.findOne({ cid: id });
+    if (!bloodTransaction) {
+      res.status(200).json(bloodTransaction);
+    } else {
+      res.status(200).json();
     }
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
 };
 
 // POST a new blood unit
 exports.createBloodTransaction = async (req, res) => {
+  try {
+    var objectId = new ObjectId();
     const bloodTransaction = new BloodTransaction({
-        bloodType: req.body.bloodType,
-        donor: req.body.donor,
-        recipient: req.body.recipient,
+      cid: objectId,
+      ...req.body,
     });
-
-    try {
-        const newBloodTransaction = await BloodTransaction.save();
-        res.status(201).json(newBloodTransaction);
-    } catch (error) {
-        res.status(400).json({ message: error.message });
-    }
+    await bloodTransaction.save();
+    res.status(201).json(bloodTransaction);
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
 };
 
 // PUT (update) an existing blood unit by ID
 exports.updateBloodTransactionById = async (req, res) => {
-    try {
-        const bloodTransaction = await BloodTransaction.findById(req.params.cid);
-        if (!bloodTransaction) {
-            return res.status(404).json({ message: 'Blood transaction not found' });
-        }
-
-        bloodTransaction.bloodType = req.body.bloodType || bloodTransaction.bloodType;
-        bloodTransaction.donor = req.body.donor || bloodTransaction.donor;
-        bloodTransaction.recipient = req.body.recipient || bloodTransaction.recipient;
-
-        const updatedBloodTransaction = await bloodTransaction.save();
-        res.status(200).json(updatedBloodTransaction);
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+  try {
+    const bloodTransaction = await BloodTransaction.findOneAndUpdate(
+      { cid: req.body.cid },
+      { ...req.body },
+      { new: true }
+    );
+    if (bloodTransaction) {
+      console.log("OK!");
+      res.status(200).json("blood Transaction  updated successfully!");
+    } else {
+      console.log("problem");
+      res.status(404).json({ message: err.message });
     }
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
 };
 
 // DELETE a blood unit by ID
 exports.deleteBloodTransactionById = async (req, res) => {
-    try {
-        const bloodTransaction = await BloodTransaction.findById(req.params.cid);
-        if (!bloodTransaction) {
-            return res.status(404).json({ message: 'Blood transaction not found' });
-        }
-        await bloodTransaction.remove();
-        res.status(200).json({ message: 'Blood transaction deleted successfully' });
-    } catch (error) {
-        res.status(500).json({ message: error.message });
+  try {
+    const { cid } = req.body;
+    const bloodTransaction = await BloodTransaction.deleteOne({ cid: cid });
+    if (bloodTransaction.deletedCount === 1) {
+      console.log("OK!");
+      res.status(200).json("blood Transaction removed successfully!");
+    } else {
+      console.log("problem");
+      res.status(404).json({ message: err.message });
     }
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
 };
