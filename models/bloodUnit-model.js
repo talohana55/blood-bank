@@ -11,17 +11,6 @@ const BloodUnitSchema = new Schema({
     enum: ["A+", "O+", "B+", "AB+", "A-", "O-", "B-", "AB-"],
     required: true,
   },
-  collectionDate: {
-    type: Date,
-  },
-  expiryDate: {
-    type: Date,
-    required: true,
-  },
-  isFrozen: {
-    type: Boolean,
-    required: true,
-  },
   units: {
     type: Number,
     required: true,

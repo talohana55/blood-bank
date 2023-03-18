@@ -4,6 +4,8 @@ import "../Style/BloodReception.css";
 const BloodReception = () => {
   const [donorId, setDonorId] = useState("");
   const [quantity, setQuantity] = useState("");
+  const [firstname, setFirstName] = useState("");
+  const [lastname, setLastName] = useState("");
   const validBloodTypes = ["A+", "O+", "B+", "AB+", "A-", "O-", "B-", "AB-"];
   const [bloodType, setBloodType] = useState("");
 
@@ -17,6 +19,14 @@ const BloodReception = () => {
 
   const handleQuantityChange = (event) => {
     setQuantity(event.target.value);
+  };
+
+  const handleFirstNameChange = (event) => {
+    setFirstName(event.target.value);
+  };
+
+  const handleLastNameChange = (event) => {
+    setLastName(event.target.value);
   };
 
   const handleSubmit = (event) => {
@@ -52,6 +62,28 @@ const BloodReception = () => {
             onChange={handleDonorIdChange}
           />
           <span>Donor ID</span>
+        </div>
+        <div className="reception-form-input">
+          {/* <label htmlFor="donorId">Donor ID:</label> */}
+          <input
+            type="text"
+            id="firstname"
+            name="firstname"
+            value={firstname}
+            onChange={handleFirstNameChange}
+          />
+          <span>First name</span>
+        </div>
+        <div className="reception-form-input">
+          {/* <label htmlFor="donorId">Donor ID:</label> */}
+          <input
+            type="text"
+            id="lastname"
+            name="lastname"
+            value={lastname}
+            onChange={handleLastNameChange}
+          />
+          <span>Last name</span>
         </div>
         <div className="reception-form-input">
           {/* <label htmlFor="bloodType">Blood Type:</label> */}
