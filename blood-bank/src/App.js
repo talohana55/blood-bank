@@ -3,9 +3,9 @@ import axios from "axios";
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
 import "./App.css";
 import BloodReception from "./Routes/BloodReception";
-import RoutineDispense from "./Routes/RoutineDispense";
+import RoutineDispense from "./Routes/routineDispense";
 import EmergencyDispense from "./Routes/EmergencyDispense";
-import NavBar from "./Components/NavBar";
+import NavBar from "./components/NavBar";
 import HomePage from "./Routes/HomePage";
 
 function App() {
@@ -19,7 +19,7 @@ function App() {
   return (
     <Router>
       <div className="app">
-        <NavBar />
+        <NavBar className=".navbar"/>
         <main className="container-app">
           <Routes>
             <Route element={<HomePage />} path="/" />

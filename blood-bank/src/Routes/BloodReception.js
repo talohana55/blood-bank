@@ -3,9 +3,9 @@ import "../Style/BloodReception.css";
 
 const BloodReception = () => {
   const [donorId, setDonorId] = useState("");
-  const [bloodType, setBloodType] = useState("");
   const [quantity, setQuantity] = useState("");
   const validBloodTypes = ["A+", "O+", "B+", "AB+", "A-", "O-", "B-", "AB-"];
+  const [bloodType, setBloodType] = useState("");
 
   const handleDonorIdChange = (event) => {
     setDonorId(event.target.value);
