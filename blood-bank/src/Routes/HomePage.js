@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import Table from "react-bootstrap/Table";
 import axios from "axios";
+import "../Style/HomePage.css";
 
 const HomePage = () => {
   const [bloodUnits, setBloodUnits] = useState([]);
@@ -14,11 +15,11 @@ const HomePage = () => {
         console.log(response.data);
         setBloodUnits(response.data);
       }
-
     } catch (err) {
       console.error(err);
     }
   };
+
   useEffect(() => {
     getAllBloodUnits();
   }, []);

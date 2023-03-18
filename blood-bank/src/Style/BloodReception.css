@@ -1,6 +1,128 @@
-.centered {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
+.reception {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 350px;
+  width: 400px;
+  flex-direction: column;
+  gap: 35px;
+  border-radius: 15px;
+  background: #dbe6f6; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to top,
+    #c5796d,
+    #dbe6f6
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to top,
+    #c5796d,
+    #dbe6f6
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+
+  box-shadow: 16px 16px 32px #c8c8c8, -16px -16px 32px #fefefe;
+  border-radius: 10px;
+  margin-top: 50px;
+  padding-top: 30px;
+}
+
+h3 {
+  color: #000;
+  text-transform: uppercase;
+  letter-spacing: 2.5px;
+  display: block;
+  font-weight: bold;
+  font-size: x-large;
+}
+
+.reception-form {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.reception-form-input {
+  position: relative;
+  width: 250px;
+  margin: 10px;
+}
+
+.reception-form-input span {
+  margin-top: 5px;
+  position: absolute;
+  left: 0;
+  transform: translateY(-4px);
+  margin-left: 10px;
+  padding: 10px;
+  pointer-events: none;
+  font-size: 12px;
+  color: #000;
+  text-transform: uppercase;
+  transition: 0.5s;
+  letter-spacing: 3px;
+  border-radius: 8px;
+}
+
+.reception-form-input input::before ~ span{
+  /* transform: translateX(130px) translateY(-14px); */
+  font-size: 0.8em;
+  padding: 5px 10px;
+  background: #000;
+  letter-spacing: 0.2em;
+  color: #fff;
+  border: 2px;
+}
+
+
+.reception-form-input input ~ span{
+  transform: translateX(130px) translateY(-14px);
+  font-size: 0.8em;
+  padding: 5px 10px;
+  background: #000;
+  letter-spacing: 0.2em;
+  color: #fff;
+  border: 2px;
+}
+
+.reception-form-input:nth-child(3) {
+  width: 50%;
+}
+
+.reception-form-input:nth-child(3) span {
+  transform: translateX(90px) translateY(-14px);
+}
+
+/* .reception-form label, */
+.reception-form input,
+.reception-form select {
+  width: 100%;
+  padding: 10px;
+  outline: none;
+  border: none;
+  color: #000;
+  font-size: 1em;
+  background: transparent;
+  border-left: 1px solid #000;
+  border-bottom: 1px solid #000;
+  transition: 0.1s;
+  border-bottom-left-radius: 16px;
+}
+
+.reception button {
+  margin-top: 10px;
+  height: 45px;
+  width: 200px;
+  border-radius: 5px;
+  border: 2px solid #412d2d;
+  cursor: pointer;
+  background-color: transparent;
+  transition: 0.5s;
+  text-transform: uppercase;
+  font-size: 14px;
+  letter-spacing: 2px;
+  margin-bottom: 3em;
+}
+
+.reception button:hover {
+  background-color: rgb(0, 0, 0);
+  color: white;
 }

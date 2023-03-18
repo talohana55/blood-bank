@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import axios from "axios";
 import { HashRouter as Router, Route, Routes } from "react-router-dom";
-
+import "./App.css";
 import BloodReception from "./Routes/BloodReception";
 import RoutineDispense from "./Routes/RoutineDispense";
 import EmergencyDispense from "./Routes/EmergencyDispense";
