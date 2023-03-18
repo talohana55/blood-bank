@@ -6,6 +6,7 @@ const BloodReception = () => {
   const [quantity, setQuantity] = useState("");
   const [firstname, setFirstName] = useState("");
   const [lastname, setLastName] = useState("");
+  const [date, setDate] = useState(Date);
   const validBloodTypes = ["A+", "O+", "B+", "AB+", "A-", "O-", "B-", "AB-"];
   const [bloodType, setBloodType] = useState("");
 
@@ -29,6 +30,11 @@ const BloodReception = () => {
     setLastName(event.target.value);
   };
 
+  const handleDateChange = (event) => {
+    console.log(event.target.value);
+    setDate(event.target.value);
+  };
+
   const handleSubmit = (event) => {
     event.preventDefault();
     // validate donor ID
@@ -36,6 +42,14 @@ const BloodReception = () => {
       alert("Donor ID must include exactly 9 digits");
       return;
     } // send request to server to receive blood dose
+    if(!firstname){
+      alert("First Name is empty!");
+      return;
+    }
+    if(!lastname){
+      alert("Last Name is empty!");
+      return;
+    }
     // validate blood type
     if (!validBloodTypes.includes(bloodType)) {
       alert("Invalid blood type");
@@ -84,6 +98,17 @@ const BloodReception = () => {
             onChange={handleLastNameChange}
           />
           <span>Last name</span>
+        </div>
+        <div className="reception-form-input">
+          {/* <label htmlFor="donorId">Donor ID:</label> */}
+          <input
+            type="date"
+            id="date"
+            name="date"
+            value={date}
+            onChange={handleDateChange}
+          />
+          <span>Date</span>
         </div>
         <div className="reception-form-input">
           {/* <label htmlFor="bloodType">Blood Type:</label> */}
