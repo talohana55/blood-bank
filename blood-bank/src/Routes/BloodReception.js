@@ -3,9 +3,9 @@ import "../Style/BloodReception.css";
 
 const BloodReception = () => {
   const [donorId, setDonorId] = useState("");
-  const [bloodType, setBloodType] = useState("");
   const [quantity, setQuantity] = useState("");
   const validBloodTypes = ["A+", "O+", "B+", "AB+", "A-", "O-", "B-", "AB-"];
+  const [bloodType, setBloodType] = useState("");
 
   const handleDonorIdChange = (event) => {
     setDonorId(event.target.value);
@@ -40,7 +40,7 @@ const BloodReception = () => {
 
   return (
     <div className="reception">
-        <h3>Blood Reception</h3>
+      <h3>Blood Reception</h3>
       <form className="reception-form" onSubmit={handleSubmit}>
         <div className="reception-form-input">
           {/* <label htmlFor="donorId">Donor ID:</label> */}
@@ -68,7 +68,6 @@ const BloodReception = () => {
               </option>
             ))}
           </select>
-          
         </div>
         <div className="reception-form-input">
           {/* <label htmlFor="quantity">Quantity:</label> */}
