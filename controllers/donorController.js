@@ -35,7 +35,6 @@ exports.createDonor = async (req, res) => {
     var objectId = new ObjectId();
     const donor = new Donor({
       cid: objectId,
-      birthDate: new Date(req.body.birthDate),
       ...req.body,
     });
     await donor.save();

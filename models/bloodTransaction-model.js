@@ -1,9 +1,7 @@
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 const { DonorSchema } = require('./donor-model')
-const { RecipientSchema } = require('./recipient-model')
 const Donor = mongoose.model('Donor', DonorSchema);
-const Recipient = mongoose.model('Recipient', RecipientSchema);
 
 
 const BloodTransactionSchema = new Schema({
@@ -17,15 +15,14 @@ const BloodTransactionSchema = new Schema({
         enum: ['A+', 'O+', 'B+', 'AB+', 'A-', 'O-', 'B-', 'AB-'],
         required: true,
     },
+    date: {
+        type: Date,
+        required: true
+    },
     donor: {
         type: mongoose.Schema.Types.ObjectId,
         ref: 'Donor',
         required: true
-    },
-    recipient: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: 'Recipient',
-        required: false
     },
 });
 
