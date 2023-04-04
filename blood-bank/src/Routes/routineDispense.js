@@ -34,7 +34,7 @@ const RoutineDispense = () => {
       "A-": ["A+", "A-", "AB+", "AB-"],
       "O-": ["A+", "B+", "AB+", "A-", "B-", "AB-", "O+", "O-"],
       "B-": ["B+", "B-", "AB+", "AB-"],
-      "AB-": ["AB+", "AB-", "A+", "B+"],
+      "AB-": ["AB+", "AB-"],
     };
 
     if (!validBloodTypes.includes(bloodType)) {
