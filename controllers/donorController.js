@@ -1,5 +1,4 @@
 const Donor = require("../models/donor-model");
-
 // Get all donors
 exports.getAllDonors = async (req, res) => {
   try {
@@ -17,8 +16,8 @@ exports.getAllDonors = async (req, res) => {
 // Get a single donor
 exports.getDonor = async (req, res) => {
   try {
-    const { id } = req.body;
-    const donor = await Donor.findOne({ cid: id });
+    const { ID } = req.params;
+    const donor = await Donor.findOne({ID});
     if (donor) {
       res.status(200).json(donor);
     } else {
@@ -31,14 +30,16 @@ exports.getDonor = async (req, res) => {
 
 // Create a new donor
 exports.createDonor = async (req, res) => {
+  console.log(req.body);
   try {
-    var objectId = new ObjectId();
+    var ObjectID = require("mongodb").ObjectId;
+    var objectId = new ObjectID();
     const donor = new Donor({
       cid: objectId,
       ...req.body,
     });
     await donor.save();
-    res.status(201).json(donor);
+    res.status(200).json(donor);
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
