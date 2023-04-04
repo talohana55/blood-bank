@@ -8,6 +8,11 @@ const DonorSchema = new mongoose.Schema(
             required: true,
             unique: true,
         },
+        ID: {
+            type: String,
+            required: true,
+            unique: true,
+        },
         firstName: {
             type: String,
             required: true,
@@ -15,33 +20,7 @@ const DonorSchema = new mongoose.Schema(
         lastName: {
             type: String,
             required: true,
-        },
-        gender: {
-            type: String,
-            required: true,
-        },
-        bloodType: {
-            type: String,
-            required: true,
-        },
-        birthDate: {
-            type: Date,
-            required: true,
-        },
-        contactNumber: {
-            type: String,
-            required: true,
-        },
-        email: {
-            type: String,
-            required: true,
-        },
-        address: {
-            type: String,
-            required: true,
-        },
-        transactions: [{ type: Schema.Types.ObjectId, ref: 'BloodTransactionSchema' }]
-
+        }
     }
 )
 
