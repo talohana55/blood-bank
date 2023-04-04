@@ -57,6 +57,7 @@ const RoutineDispense = () => {
   };
 
   const handleActionChange = (event) => {
+    console.log(event.target.value);
     setBloodAction(event.target.value);
   };
 
@@ -78,70 +79,81 @@ const RoutineDispense = () => {
     setRoom("");
   };
   return (
-    <div>
-      <h2>Dispense Blood</h2>
-      <form onSubmit={handleSubmit}>
-        <label>
-          Blood Type:
-          <select value={bloodType} onChange={handleBloodTypeChange}>
-            <option value="">Select Blood Type</option>
-            {validBloodTypes.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          <input
-            type="radio"
-            value="donate"
-            checked={bloodAction === "donate"}
-            onChange={(e) => setBloodAction(e.target.value)}
-            disabled={!bloodType}
-          />
-          Donate Blood
-        </label>
-        <label>
-          <input
-            type="radio"
-            value="receive"
-            checked={bloodAction === "receive"}
-            onChange={(e) => setBloodAction(e.target.value)}
-            disabled={!bloodType}
-          />
-          Receive Blood
-        </label>
+    <div className="form-div">
+      <h3>Dispense Blood</h3>
+      <form className="form" onSubmit={handleSubmit}>
+        {/* <label>
+          Blood Type:</label> */}
+        <select value={bloodType} onChange={handleBloodTypeChange}>
+          <option value="">Select Blood Type</option>
+          {validBloodTypes.map((type) => (
+            <option key={type} value={type}>
+              {type}
+            </option>
+          ))}
+        </select>
+        <div className="radio-group">
+          <div className="radio-input-container">
+            <input
+              id="donate"
+              name="donate"
+              className="radio-button"
+              type="radio"
+              value="donate"
+              checked={bloodAction === "donate"}
+              onChange={(e) => handleActionChange(e)}
+              disabled={!bloodType}
+            />
+            <div className="radio-tile">
+              <label for="donate" class="radio-tile-label">
+                Donate Blood
+              </label>
+            </div>
+          </div>
+          <div className="radio-input-container">
+            <input
+              id="recieve"
+              name="recieve"
+              className="radio-button"
+              type="radio"
+              value="receive"
+              checked={bloodAction === "receive"}
+              onChange={(e) => handleActionChange(e)}
+              disabled={!bloodType}
+            />
+            <div className="radio-tile">
+              <label for="recieve" class="radio-tile-label">
+                Receive Blood
+              </label>
+            </div>
+          </div>
+        </div>
+
         <label>
           Blood Types to {bloodAction === "receive" ? "Receive" : "Donate"}:
-          <select>
-            {bloodAction === "receive"
-              ? getBloodTypesToReceive(bloodType).map((type) => (
+          <div className="form-input">
+            <select value={bloodType}>
+              {bloodAction === "" ? (
+                <option disabled={true} value="">
+                  Select Action
+                </option>
+              ) : bloodAction === "receive" ? (
+                getBloodTypesToReceive(bloodType).map((type) => (
                   <option key={type} value={type}>
                     {type}
                   </option>
                 ))
-              : getBloodTypesToDonate(bloodType).map((type) => (
+              ) : (
+                getBloodTypesToDonate(bloodType).map((type) => (
                   <option key={type} value={type}>
                     {type}
                   </option>
-                ))}
-          </select>
+                ))
+              )}
+            </select>
+          </div>
         </label>
-
-        <br />
-        <label>
-          Units:
-          <input
-            type="number"
-            min="1"
-            value={units}
-            onChange={handleUnitsChange}
-          />
-        </label>
-        <br />
-        <label>
-          Room:
+        <div className="form-input">
           <select value={room} onChange={handleRoomChange}>
             <option value="">Select Room</option>
             {roomOptions.map((room) => (
@@ -150,9 +162,17 @@ const RoutineDispense = () => {
               </option>
             ))}
           </select>
-        </label>
+        </div>
+        <div className="form-input">
+          <input
+            type="number"
+            min="1"
+            value={units}
+            onChange={handleUnitsChange}
+          />
+          <span>Quantity</span>
+        </div>
 
-        <br />
         <button type="submit">Submit</button>
       </form>
     </div>

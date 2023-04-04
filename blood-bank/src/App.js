@@ -23,7 +23,7 @@ function App() {
         <main className="container-app">
           <Routes>
             <Route element={<HomePage />} path="/" />
-            <Route element={<BloodReception />} path="/bloodReception" />
+            <Route element={<BloodReception />} path="/bloodReception"/>
             <Route element={<RoutineDispense />} path="/routineDispense" />
             <Route element={<EmergencyDispense />} path="/emergencyDispense" />
           </Routes>
