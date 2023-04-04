@@ -32,7 +32,8 @@ exports.getBloodTransactionById = async (req, res) => {
 // POST a new blood unit
 exports.createBloodTransaction = async (req, res) => {
   try {
-    var objectId = new ObjectId();
+    var ObjectID = require("mongodb").ObjectId;
+    var objectId = new ObjectID();
     const bloodTransaction = new BloodTransaction({
       cid: objectId,
       ...req.body,

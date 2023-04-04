@@ -33,7 +33,8 @@ exports.getBloodUnitById = async (req, res) => {
 // POST a new blood unit
 exports.createBloodUnit = async (req, res) => {
   try {
-    var objectId = new ObjectId();
+    var ObjectID = require("mongodb").ObjectId;
+    var objectId = new ObjectID();
     const bloodUnit = new BloodUnit({
       cid: objectId,
       collectionDate: new Date(req.body.collectionDate),

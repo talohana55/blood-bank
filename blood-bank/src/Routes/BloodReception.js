@@ -1,65 +1,67 @@
 import { useState } from "react";
 import "../Style/BloodReception.css";
+import { createBloodTransaction } from "../middleware/InternalApi";
 
 const BloodReception = () => {
-  const [donorId, setDonorId] = useState("");
-  const [quantity, setQuantity] = useState("");
-  const [firstname, setFirstName] = useState("");
-  const [lastname, setLastName] = useState("");
-  const [date, setDate] = useState(Date);
+  const [bloodDonation, setBloodDonation] = useState({
+    donorId: "",
+    firstName: "",
+    lastName: "",
+    donationDate: "",
+    bloodType: "",
+    quantity: "",
+  });
+
   const validBloodTypes = ["A+", "O+", "B+", "AB+", "A-", "O-", "B-", "AB-"];
-  const [bloodType, setBloodType] = useState("");
 
-  const handleDonorIdChange = (event) => {
-    setDonorId(event.target.value);
+  const handleInputChange = (event) => {
+    const { name, value } = event.target;
+    setBloodDonation((prevDonation) => ({
+      ...prevDonation,
+      [name]: value,
+    }));
   };
 
-  const handleBloodTypeChange = (event) => {
-    setBloodType(event.target.value);
-  };
-
-  const handleQuantityChange = (event) => {
-    setQuantity(event.target.value);
-  };
-
-  const handleFirstNameChange = (event) => {
-    setFirstName(event.target.value);
-  };
-
-  const handleLastNameChange = (event) => {
-    setLastName(event.target.value);
-  };
-
-  const handleDateChange = (event) => {
-    console.log(event.target.value);
-    setDate(event.target.value);
-  };
-
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // validate donor ID
+    const { donorId, firstName, lastName, donationDate, bloodType, quantity } =
+      bloodDonation;
     if (!/^\d{9}$/.test(donorId)) {
       alert("Donor ID must include exactly 9 digits");
       return;
-    } // send request to server to receive blood dose
-    if(!firstname){
+    }
+    if (!firstName) {
       alert("First Name is empty!");
       return;
     }
-    if(!lastname){
+    if (!lastName) {
       alert("Last Name is empty!");
       return;
     }
-    // validate blood type
     if (!validBloodTypes.includes(bloodType)) {
       alert("Invalid blood type");
       return;
-    } // send request to server to receive blood dose
-    // validate quantity
+    }
     if (quantity <= 0) {
       alert("Quantity must be a positive number");
       return;
-    } // send request to server to receive blood dose
+    }
+    const newDonation = {
+      donorId: donorId,
+      firstName: firstName,
+      lastName: lastName,
+      donationDate: donationDate,
+      bloodType: bloodType,
+      quantity: quantity,
+    };
+    try {
+      const response = await createBloodTransaction(donorId, newDonation);
+      console.log(response);
+      alert("Blood transaction created successfully");
+    } catch (error) {
+      console.log(error);
+      alert("Error creating blood transaction");
+    }
   };
 
   return (
@@ -67,56 +69,48 @@ const BloodReception = () => {
       <h3>Blood Reception</h3>
       <form className="form" onSubmit={handleSubmit}>
         <div className="form-input">
-          {/* <label htmlFor="donorId">Donor ID:</label> */}
           <input
             type="text"
-            id="donorId"
             name="donorId"
-            value={donorId}
-            onChange={handleDonorIdChange}
+            placeholder="Donor ID"
+            value={bloodDonation.donorId}
+            onChange={handleInputChange}
           />
-          <span>Donor ID</span>
         </div>
         <div className="form-input">
-          {/* <label htmlFor="donorId">Donor ID:</label> */}
           <input
             type="text"
-            id="firstname"
-            name="firstname"
-            value={firstname}
-            onChange={handleFirstNameChange}
+            name="firstName"
+            placeholder="First name"
+            value={bloodDonation.firstName}
+            onChange={handleInputChange}
           />
-          <span>First name</span>
         </div>
+
         <div className="form-input">
-          {/* <label htmlFor="donorId">Donor ID:</label> */}
           <input
             type="text"
-            id="lastname"
-            name="lastname"
-            value={lastname}
-            onChange={handleLastNameChange}
+            name="lastName"
+            placeholder="Last name"
+            value={bloodDonation.lastName}
+            onChange={handleInputChange}
           />
-          <span>Last name</span>
         </div>
+
         <div className="form-input">
-          {/* <label htmlFor="donorId">Donor ID:</label> */}
           <input
             type="date"
-            id="date"
-            name="date"
-            value={date}
-            onChange={handleDateChange}
+            name="donationDate"
+            placeholder="Date"
+            value={bloodDonation.donationDate}
+            onChange={handleInputChange}
           />
-          <span>Date</span>
         </div>
         <div className="form-input">
-          {/* <label htmlFor="bloodType">Blood Type:</label> */}
           <select
-            id="bloodType"
             name="bloodType"
-            value={bloodType}
-            onChange={handleBloodTypeChange}
+            value={bloodDonation.bloodType}
+            onChange={handleInputChange}
           >
             <option value="">Select a blood type</option>
             {validBloodTypes.map((type) => (
@@ -127,15 +121,13 @@ const BloodReception = () => {
           </select>
         </div>
         <div className="form-input">
-          {/* <label htmlFor="quantity">Quantity:</label> */}
           <input
             type="number"
-            id="quantity"
             name="quantity"
-            value={quantity}
-            onChange={handleQuantityChange}
+            placeholder="Quantity"
+            value={bloodDonation.quantity}
+            onChange={handleInputChange}
           />
-          <span>Quantity</span>
         </div>
         <button type="submit">Receive Blood</button>
       </form>
