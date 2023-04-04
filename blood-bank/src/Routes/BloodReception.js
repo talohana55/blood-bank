@@ -63,10 +63,10 @@ const BloodReception = () => {
   };
 
   return (
-    <div className="reception">
+    <div className="form-div">
       <h3>Blood Reception</h3>
-      <form className="reception-form" onSubmit={handleSubmit}>
-        <div className="reception-form-input">
+      <form className="form" onSubmit={handleSubmit}>
+        <div className="form-input">
           {/* <label htmlFor="donorId">Donor ID:</label> */}
           <input
             type="text"
@@ -77,7 +77,7 @@ const BloodReception = () => {
           />
           <span>Donor ID</span>
         </div>
-        <div className="reception-form-input">
+        <div className="form-input">
           {/* <label htmlFor="donorId">Donor ID:</label> */}
           <input
             type="text"
@@ -88,7 +88,7 @@ const BloodReception = () => {
           />
           <span>First name</span>
         </div>
-        <div className="reception-form-input">
+        <div className="form-input">
           {/* <label htmlFor="donorId">Donor ID:</label> */}
           <input
             type="text"
@@ -99,7 +99,7 @@ const BloodReception = () => {
           />
           <span>Last name</span>
         </div>
-        <div className="reception-form-input">
+        <div className="form-input">
           {/* <label htmlFor="donorId">Donor ID:</label> */}
           <input
             type="date"
@@ -110,7 +110,7 @@ const BloodReception = () => {
           />
           <span>Date</span>
         </div>
-        <div className="reception-form-input">
+        <div className="form-input">
           {/* <label htmlFor="bloodType">Blood Type:</label> */}
           <select
             id="bloodType"
@@ -126,7 +126,7 @@ const BloodReception = () => {
             ))}
           </select>
         </div>
-        <div className="reception-form-input">
+        <div className="form-input">
           {/* <label htmlFor="quantity">Quantity:</label> */}
           <input
             type="number"
