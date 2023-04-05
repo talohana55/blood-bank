@@ -9,12 +9,12 @@ import NavBar from "./Components/NavBar";
 import HomePage from "./Routes/HomePage";
 
 function App() {
-  useEffect(() => {
-    axios
-      .get("http://localhost:5000/")
-      .then((response) => console.log(response.data))
-      .catch((error) => console.log(error));
-  }, []);
+  // useEffect(() => {
+  //   axios
+  //     .get("http://localhost:8080/")
+  //     .then((response) => console.log(response.data))
+  //     .catch((error) => console.log(error));
+  // }, []);
 
   return (
     <Router>
@@ -23,7 +23,7 @@ function App() {
         <main className="container-app">
           <Routes>
             <Route element={<HomePage />} path="/" />
-            <Route element={<BloodReception />} path="/bloodReception"/>
+            <Route element={<BloodReception />} path="/bloodReception" />
             <Route element={<RoutineDispense />} path="/routineDispense" />
             <Route element={<EmergencyDispense />} path="/emergencyDispense" />
           </Routes>

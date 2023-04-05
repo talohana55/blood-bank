@@ -1,22 +1,22 @@
 const mongoose = require("mongoose");
 
-const DonorSchema = new mongoose.Schema(
+const HospitalSchema = new mongoose.Schema(
   {
     cid: {
       type: String,
       unique: true,
       require: true,
     },
-    ID: {
+    hospitalName: {
       type: String,
       unique: true,
       required: true,
     },
-    firstName: {
+    hospitalCode: {
       type: String,
       required: true,
     },
-    lastName: {
+    address: {
       type: String,
       required: true,
     },
@@ -24,5 +24,5 @@ const DonorSchema = new mongoose.Schema(
   { timestamps: true, cid: false }
 );
 
-const Donor = mongoose.model("Donor", DonorSchema, "Donor");
-module.exports = Donor;
+const Hospital = mongoose.model("Hospital", HospitalSchema, "Hospital");
+module.exports = Hospital;

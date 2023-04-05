@@ -1,4 +1,5 @@
 const BloodTransaction = require("../models/bloodTransaction-model");
+const Donor = require("../models/donor-model");
 
 // GET all blood units
 exports.getAllBloodTransaction = async (req, res) => {
@@ -29,19 +30,25 @@ exports.getBloodTransactionById = async (req, res) => {
   }
 };
 
-// POST a new blood unit
+// POST a new blood transaction
 exports.createBloodTransaction = async (req, res) => {
   try {
-    var ObjectID = require("mongodb").ObjectId;
-    var objectId = new ObjectID();
+    const donor = await Donor.findOne({ ID: req.body.donorID });
+    if (!donor) {
+      console.log("NOT Found");
+      return res.status(404).json({ message: "Donor not found" });
+    }
     const bloodTransaction = new BloodTransaction({
-      cid: objectId,
-      ...req.body,
+      bloodType: req.body.bloodType,
+      date: req.body.date,
+      donorID: donor.ID,
+      quantity: req.body.quantity,
     });
     await bloodTransaction.save();
+
     res.status(201).json(bloodTransaction);
   } catch (err) {
-    res.status(404).json({ message: err.message });
+    res.status(500).json({ message: err.message });
   }
 };
 

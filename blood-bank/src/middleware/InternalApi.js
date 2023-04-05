@@ -1,8 +1,4 @@
 import axios from "axios";
-import BloodUnit from "../models/bloodUnit-model";
-import Donor from "../models/donor-model";
-import BloodTransaction from "../models/bloodTransaction-model";
-const ObjectId = require("mongoose").Types.ObjectId;
 
 //------------------- Blood Transaction API methods----------------------------------------------------------------
 // GET all blood units
@@ -30,31 +26,23 @@ export const getBloodTransactionById = async (id) => {
 };
 
 // POST a new blood transaction
-export const createBloodTransaction = async (
-  donorId,
-  bloodTransactionResponse
-) => {
+export const createBloodTransaction = async (newDonation) => {
   try {
-    const donorResponse = await axios.get(
-      `http://localhost:8080/api/donors/get/${donorId}`
+    // Create a BloodTransaction object with the donor ID
+    const bloodTransactionObj = {
+      bloodType: newDonation.bloodType,
+      date: newDonation.date,
+      donorID: newDonation.donorID,
+      quantity: newDonation.quantity,
+    };
+    // Save the BloodTransaction object in the backend API
+    console.log(bloodTransactionObj);
+    const response = await axios.post(
+      "http://localhost:8080/api/bloodTransaction/create",
+      bloodTransactionObj
     );
-    const donorObj = new Donor({
-      ID: donorResponse.ID,
-      firstName: donorResponse.firstName,
-      lastName: donorResponse.lastName,
-    });
-    const bloodTransactionObj = new BloodTransaction({
-      bloodType: bloodTransactionResponse.BloodUnit,
-      date: bloodTransactionResponse.date,
-      donor: donorObj,
-    });
-    return bloodTransactionObj;
 
-    // const response = await axios.post(
-    //   "http://localhost:8080/api/bloodTransaction/create",
-    //   bloodTransactionObj
-    // );
-    // return response.data;
+    return response.data;
   } catch (error) {
     throw new Error(error.message);
   }
@@ -197,6 +185,41 @@ export const deleteDonor = async (id) => {
   try {
     const response = await axios.delete(
       `http://localhost:8080/api/donors/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+//-------------------Hospital API methods ----------------------------------------------------------------
+// GET all hospitals
+export const getAllHospitals = async () => {
+  try {
+    const response = await axios.get("http://localhost:8080/api/hospital/get");
+    return response.data;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+// GET a single hospital by code
+export const getHospitalByCode = async (hospitalCode) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:8080/api/hospital/${hospitalCode}`
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+// POST a new blood transaction
+export const createHospital = async (hospital) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:8080/api/hospital/create",
+      hospital
     );
     return response.data;
   } catch (error) {

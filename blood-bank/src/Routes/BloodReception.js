@@ -4,10 +4,10 @@ import { createBloodTransaction } from "../middleware/InternalApi";
 
 const BloodReception = () => {
   const [bloodDonation, setBloodDonation] = useState({
-    donorId: "",
+    donorID: "",
     firstName: "",
     lastName: "",
-    donationDate: "",
+    date: "",
     bloodType: "",
     quantity: "",
   });
@@ -24,9 +24,9 @@ const BloodReception = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    const { donorId, firstName, lastName, donationDate, bloodType, quantity } =
+    const { donorID, firstName, lastName, date, bloodType, quantity } =
       bloodDonation;
-    if (!/^\d{9}$/.test(donorId)) {
+    if (!/^\d{9}$/.test(donorID)) {
       alert("Donor ID must include exactly 9 digits");
       return;
     }
@@ -46,16 +46,17 @@ const BloodReception = () => {
       alert("Quantity must be a positive number");
       return;
     }
+    const quantityInt = parseInt(quantity);
     const newDonation = {
-      donorId: donorId,
+      donorID: donorID,
       firstName: firstName,
       lastName: lastName,
-      donationDate: donationDate,
+      date: date,
       bloodType: bloodType,
-      quantity: quantity,
+      quantity: quantityInt,
     };
     try {
-      const response = await createBloodTransaction(donorId, newDonation);
+      const response = await createBloodTransaction(newDonation);
       console.log(response);
       alert("Blood transaction created successfully");
     } catch (error) {
@@ -71,9 +72,9 @@ const BloodReception = () => {
         <div className="form-input">
           <input
             type="text"
-            name="donorId"
+            name="donorID"
             placeholder="Donor ID"
-            value={bloodDonation.donorId}
+            value={bloodDonation.donorID}
             onChange={handleInputChange}
           />
         </div>
@@ -100,9 +101,9 @@ const BloodReception = () => {
         <div className="form-input">
           <input
             type="date"
-            name="donationDate"
+            name="date"
             placeholder="Date"
-            value={bloodDonation.donationDate}
+            value={bloodDonation.date}
             onChange={handleInputChange}
           />
         </div>

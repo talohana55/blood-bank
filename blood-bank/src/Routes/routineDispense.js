@@ -1,12 +1,15 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { getAllHospitals } from "../middleware/InternalApi";
 
 const RoutineDispense = () => {
   const [bloodType, setBloodType] = useState("");
-  const [units, setUnits] = useState(0);
+  const [quantity, setQuantity] = useState(0);
+  const [hospital, setHospital] = useState([]);
   const [room, setRoom] = useState("");
   const [bloodAction, setBloodAction] = useState("");
   const validBloodTypes = ["A+", "O+", "B+", "AB+", "A-", "O-", "B-", "AB-"];
   const roomOptions = ["Room 1", "Room 2", "Room 3", "Room 4", "Room 5"];
+
   const getBloodTypesToReceive = (bloodType) => {
     const canReceiveFrom = {
       "A+": ["A+", "A-", "O+", "O-"],
@@ -48,10 +51,12 @@ const RoutineDispense = () => {
     setBloodType(event.target.value);
   };
 
-  const handleUnitsChange = (event) => {
-    setUnits(event.target.value);
+  const handleQuantityChange = (event) => {
+    setQuantity(event.target.value);
   };
-
+  const handleHospitalChange = (event) => {
+    const selectedHospital = event.target.value;
+  };
   const handleRoomChange = (event) => {
     setRoom(event.target.value);
   };
@@ -70,14 +75,28 @@ const RoutineDispense = () => {
     // code to submit data to the backend API
     console.log("Blood type:", bloodType);
     console.log("Blood Action:", bloodAction);
-    console.log("Units:", units);
+    console.log("Quantity:", quantity);
     console.log("Room:", room);
     // reset form values
     setBloodType("");
     setBloodAction("");
-    setUnits(0);
+    setQuantity(0);
     setRoom("");
   };
+  const getHospitals = async () => {
+    try {
+      const response = await getAllHospitals();
+      if (response) {
+        setHospital(response);
+        console.log(response);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getHospitals();
+  }, []);
   return (
     <div className="form-div">
       <h3>Dispense Blood</h3>
@@ -86,9 +105,9 @@ const RoutineDispense = () => {
           Blood Type:</label> */}
         <select value={bloodType} onChange={handleBloodTypeChange}>
           <option value="">Select Blood Type</option>
-          {validBloodTypes.map((type) => (
-            <option key={type} value={type}>
-              {type}
+          {validBloodTypes.map((type3) => (
+            <option key={type3} value={type3}>
+              {type3}
             </option>
           ))}
         </select>
@@ -105,7 +124,7 @@ const RoutineDispense = () => {
               disabled={!bloodType}
             />
             <div className="radio-tile">
-              <label for="donate" class="radio-tile-label">
+              <label for="donate" className="radio-tile-label">
                 Donate Blood
               </label>
             </div>
@@ -122,7 +141,7 @@ const RoutineDispense = () => {
               disabled={!bloodType}
             />
             <div className="radio-tile">
-              <label for="recieve" class="radio-tile-label">
+              <label for="recieve" className="radio-tile-label">
                 Receive Blood
               </label>
             </div>
@@ -138,21 +157,31 @@ const RoutineDispense = () => {
                   Select Action
                 </option>
               ) : bloodAction === "receive" ? (
-                getBloodTypesToReceive(bloodType).map((type) => (
-                  <option key={type} value={type}>
-                    {type}
+                getBloodTypesToReceive(bloodType).map((type1) => (
+                  <option key={type1} value={type1}>
+                    {type1}
                   </option>
                 ))
               ) : (
-                getBloodTypesToDonate(bloodType).map((type) => (
-                  <option key={type} value={type}>
-                    {type}
+                getBloodTypesToDonate(bloodType).map((type2) => (
+                  <option key={type2} value={type2}>
+                    {type2}
                   </option>
                 ))
               )}
             </select>
           </div>
         </label>
+        <div className="form-input">
+          <select value={hospital.hospitalName} onChange={handleHospitalChange}>
+            <option value="">Select Hospital</option>
+            {hospital.map((obj) => (
+              <option key={obj} value={obj}>
+                {obj.hospitalName}
+              </option>
+            ))}
+          </select>
+        </div>
         <div className="form-input">
           <select value={room} onChange={handleRoomChange}>
             <option value="">Select Room</option>
@@ -167,8 +196,8 @@ const RoutineDispense = () => {
           <input
             type="number"
             min="1"
-            value={units}
-            onChange={handleUnitsChange}
+            value={quantity}
+            onChange={handleQuantityChange}
           />
           <span>Quantity</span>
         </div>

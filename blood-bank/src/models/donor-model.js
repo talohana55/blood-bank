@@ -5,7 +5,7 @@ const DonorSchema = new mongoose.Schema(
     cid: {
       type: String,
       unique: true,
-      required: true,
+      require: true,
     },
     ID: {
       type: String,
@@ -21,7 +21,7 @@ const DonorSchema = new mongoose.Schema(
       required: true,
     },
   },
-  { _id: false }
+  { timestamps: true, cid: false }
 );
 
 const Donor = mongoose.model("Donor", DonorSchema, "Donor");
