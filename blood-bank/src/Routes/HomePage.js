@@ -1,27 +1,31 @@
 import React, { useState, useEffect } from "react";
+import moment from "moment";
 import Table from "react-bootstrap/Table";
-import axios from "axios";
 import "../Style/HomePage.css";
+import { getAllBloodTransaction } from "../middleware/InternalApi";
 
 const HomePage = () => {
-  const [bloodUnits, setBloodUnits] = useState([]);
+  const [bloodData, setBloodData] = useState([]);
 
-  const getAllBloodUnits = async () => {
+  const getAllBloodData = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:8080/api/bloodUnits/get"
-      );
-      if (response.data) {
-        console.log(response.data);
-        setBloodUnits(response.data);
+      const response = await getAllBloodTransaction();
+      if (response) {
+        // format date using moment
+        const formattedData = response.map((item) => ({
+          ...item,
+          date: moment(item.date).format("DD/MM/YYYY"),
+        }));
+        setBloodData(formattedData);
       }
     } catch (err) {
       console.error(err);
+      alert("Error Get blood transactions");
     }
   };
 
   useEffect(() => {
-    getAllBloodUnits();
+    getAllBloodData();
   }, []);
 
   return (
@@ -33,27 +37,24 @@ const HomePage = () => {
             <tr>
               <th>Blood Type</th>
               <th>Collection Date</th>
-              <th>Expiry Date</th>
-              <th>Is Frozen</th>
+
               <th>Units</th>
             </tr>
           </thead>
           <tbody>
-            {bloodUnits.map((item) => {
+            {bloodData.map((item) => (
               <tr key={item.cid}>
                 <td>{item.bloodType}</td>
-                <td>{item.collectionDate}</td>
-                <td>{item.expiryDate}</td>
-                <td>{item.isFrozen}</td>
-                <td>{item.units}</td>
-              </tr>;
-            })}
+                <td>{item.date}</td>
+                <td>{item.quantity}</td>
+              </tr>
+            ))}
           </tbody>
         </Table>
       </div>
       <div className="table-container">
         <h2>Population Blood Type</h2>
-        <Table striped bordered hover>
+        {/* <Table striped bordered hover>
           <thead>
             <tr>
               <th>Country</th>
@@ -76,7 +77,7 @@ const HomePage = () => {
               <td>@mdo</td>
             </tr>
           </tbody>
-        </Table>
+        </Table> */}
       </div>
     </div>
   );

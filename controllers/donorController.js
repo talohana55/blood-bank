@@ -17,7 +17,7 @@ exports.getAllDonors = async (req, res) => {
 exports.getDonor = async (req, res) => {
   try {
     const { ID } = req.params;
-    const donor = await Donor.findOne({ID});
+    const donor = await Donor.findOne({ ID });
     if (donor) {
       res.status(200).json(donor);
     } else {
@@ -28,9 +28,8 @@ exports.getDonor = async (req, res) => {
   }
 };
 
-// Create a new donor
+//Create a new donor
 exports.createDonor = async (req, res) => {
-  console.log(req.body);
   try {
     var ObjectID = require("mongodb").ObjectId;
     var objectId = new ObjectID();
