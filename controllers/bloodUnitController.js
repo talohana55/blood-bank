@@ -4,6 +4,7 @@ const { ObjectId } = require("mongodb");
 // GET all blood units
 exports.getAllBloodUnits = async (req, res) => {
   try {
+    console.log("Here");
     const bloodUnits = await BloodUnit.find();
     if (bloodUnits.length) {
       res.status(200).json(bloodUnits);
@@ -16,10 +17,13 @@ exports.getAllBloodUnits = async (req, res) => {
 };
 
 // GET a single blood unit by ID
-exports.getBloodUnitById = async (req, res) => {
+exports.getBloodUnitByType = async (req, res) => {
   try {
-    const { id } = req.body;
-    const bloodUnit = await BloodUnit.findOne({ cid: id });
+    const { type } = req.params;
+    if (!["A+", "O+", "B+", "AB+", "A-", "O-", "B-", "AB-"].includes(type)) {
+      return res.status(400).json({ message: "Invalid blood type" });
+    }
+    const bloodUnit = await BloodUnit.findOne({ bloodType: type });
     if (bloodUnit) {
       res.status(200).json(bloodUnit);
     } else {
@@ -37,8 +41,6 @@ exports.createBloodUnit = async (req, res) => {
     var objectId = new ObjectID();
     const bloodUnit = new BloodUnit({
       cid: objectId,
-      collectionDate: new Date(req.body.collectionDate),
-      expiryDate: new Date(req.body.expiryDate),
       ...req.body,
     });
     await bloodUnit.save();
@@ -48,20 +50,22 @@ exports.createBloodUnit = async (req, res) => {
   }
 };
 
-// PUT (update) an existing blood unit by ID
-exports.updateBloodUnitById = async (req, res) => {
+// PUT (update) an existing blood unit by type
+exports.updateBloodUnitByType = async (req, res) => {
   try {
+    const { type, quantity } = req.body;
+
+    console.log(type);
     const bloodUnit = await BloodUnit.findOneAndUpdate(
-      { cid: req.body.cid },
-      { ...req.body },
+      { bloodType: type },
+      { units: +quantity },
       { new: true }
     );
+    console.log(bloodUnit);
     if (bloodUnit) {
-      console.log("OK!");
       res.status(200).json("Blood Unit updated successfully!");
     } else {
-      console.log("problem");
-      res.status(404).json({ message: err.message });
+      res.status(404).json({ message: "Blood unit not found" });
     }
   } catch (err) {
     res.status(404).json({ message: err.message });

@@ -3,7 +3,7 @@ import moment from "moment";
 import Table from "react-bootstrap/Table";
 import "../Style/HomePage.css";
 import { getAllBloodTransaction } from "../middleware/InternalApi";
-
+import { israel_populationAvg } from "../middleware/functions";
 const HomePage = () => {
   const [bloodData, setBloodData] = useState([]);
 
@@ -54,30 +54,36 @@ const HomePage = () => {
       </div>
       <div className="table-container">
         <h2>Population Blood Type</h2>
-        {/* <Table striped bordered hover>
+        <Table striped bordered hover>
           <thead>
             <tr>
               <th>Country</th>
               <th>Population</th>
               <th>O+</th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
-              <th></th>
+              <th>A+</th>
+              <th>B+</th>
+              <th>AB+</th>
+              <th>O-</th>
+              <th>A-</th>
+              <th>B-</th>
+              <th>AB-</th>
             </tr>
           </thead>
           <tbody>
             <tr>
-              <td>1</td>
-              <td>Mark</td>
-              <td>Otto</td>
-              <td>@mdo</td>
+              <td>Israel</td>
+              <td>{israel_populationAvg.population}</td>
+              <td>{israel_populationAvg.O_positive}</td>
+              <td>{israel_populationAvg.A_positive}</td>
+              <td>{israel_populationAvg.B_positive}</td>
+              <td>{israel_populationAvg.AB_positive}</td>
+              <td>{israel_populationAvg.O_negative}</td>
+              <td>{israel_populationAvg.A_negative}</td>
+              <td>{israel_populationAvg.B_negative}</td>
+              <td>{israel_populationAvg.AB_negative}</td>
             </tr>
           </tbody>
-        </Table> */}
+        </Table>
       </div>
     </div>
   );
