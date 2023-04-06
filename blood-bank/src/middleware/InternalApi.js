@@ -36,7 +36,6 @@ export const createBloodTransaction = async (newDonation) => {
       quantity: newDonation.quantity,
     };
     // Save the BloodTransaction object in the backend API
-    console.log(bloodTransactionObj);
     const response = await axios.post(
       "http://localhost:8080/api/bloodTransaction/create",
       bloodTransactionObj
@@ -87,10 +86,11 @@ export const getAllBloodUnits = async () => {
     throw new Error(error.message);
   }
 };
-export const getBloodUnitById = async (id) => {
+export const getBloodUnitByType = async (type) => {
   try {
+    console.log(type);
     const response = await axios.get(
-      `http://localhost:8080/api/bloodUnits/get/${id}`
+      `http://localhost:8080/api/bloodUnits/get/${type}`
     );
     return response.data;
   } catch (error) {
@@ -110,11 +110,11 @@ export const createBloodUnit = async (bloodUnit) => {
   }
 };
 // PUT (update) an existing blood unit by ID
-export const updateBloodUnitById = async (id, updatedBloodUnit) => {
+export const updateBloodUnitByType = async (type, newQuantity) => {
   try {
     const response = await axios.put(
-      `http://localhost:8080/api/bloodUnits/${id}`,
-      updatedBloodUnit
+      `http://localhost:8080/api/bloodUnits/${type}`,
+      newQuantity
     );
     return response.data;
   } catch (error) {

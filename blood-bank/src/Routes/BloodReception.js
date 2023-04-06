@@ -1,6 +1,9 @@
 import { useState } from "react";
 import "../Style/BloodReception.css";
-import { createBloodTransaction } from "../middleware/InternalApi";
+import {
+  createBloodTransaction,
+  updateBloodUnitByType,
+} from "../middleware/InternalApi";
 
 const BloodReception = () => {
   const [bloodDonation, setBloodDonation] = useState({
@@ -55,6 +58,15 @@ const BloodReception = () => {
       bloodType: bloodType,
       quantity: quantityInt,
     };
+    try {
+      const response = await updateBloodUnitByType(
+        newDonation.bloodType,
+        quantityInt
+      );
+      console.log(response);
+    } catch (error) {
+      alert(error);
+    }
     try {
       const response = await createBloodTransaction(newDonation);
       console.log(response);

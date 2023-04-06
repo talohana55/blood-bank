@@ -1,21 +1,19 @@
-const express = require('express');
+const express = require("express");
 
 const {
-    getAllBloodUnits,
-    getBloodUnitById,
-    createBloodUnit,
-    updateBloodUnitById,
-    deleteBloodUnitById
+  getAllBloodUnits,
+  getBloodUnitByType,
+  createBloodUnit,
+  updateBloodUnitByType,
+  deleteBloodUnitById,
 } = require("../controllers/bloodUnitController");
-
 
 const router = express.Router();
 
 router.route("/api/bloodUnits/get").get(getAllBloodUnits);
-router.route("/api/bloodUnits/get/id").get(getBloodUnitById);
+router.route("/api/bloodUnits/get/:type").get(getBloodUnitByType);
 router.route("/api/bloodUnits/create").post(createBloodUnit);
-router.route("/api/bloodUnits/:id").put(updateBloodUnitById);
+router.route("/api/bloodUnits/update").put(updateBloodUnitByType);
 router.route("/api/bloodUnits/:id").delete(deleteBloodUnitById);
-
 
 module.exports = router;

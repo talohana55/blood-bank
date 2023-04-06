@@ -35,7 +35,6 @@ exports.createBloodTransaction = async (req, res) => {
   try {
     const donor = await Donor.findOne({ ID: req.body.donorID });
     if (!donor) {
-      console.log("NOT Found");
       return res.status(404).json({ message: "Donor not found" });
     }
     const bloodTransaction = new BloodTransaction({
