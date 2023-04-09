@@ -59,6 +59,7 @@ const BloodDonationForm = () => {
           to locate a substitute for the desired blood type. Please provide the
           possible applicants' blood types.
         </p>
+        <p></p>
         {validBloodTypes.map((type) => {
           if (type.id === 6) {
             // Skip the O- blood type
