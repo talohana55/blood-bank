@@ -20,43 +20,7 @@ export const validBloodTypes = [
   { id: 8, type: "AB-" },
 ];
 export const roomOptions = [
-  { id: 1, room: "Room 1" },
-  { id: 2, room: "Room 2" },
-  { id: 3, room: "Room 3" },
+  { id: 1, number: "1" },
+  { id: 2, number: "2" },
+  { id: 3, number: "3" },
 ];
-export const getBloodTypesToReceive = (bloodType) => {
-  const canReceiveFrom = {
-    "A+": ["A+", "A-", "O+", "O-"],
-    "O+": ["O+", "O-"],
-    "B+": ["B+", "B-", "O+", "O-"],
-    "AB+": ["A+", "A-", "B+", "B-", "AB+", "AB-", "O+", "O-"],
-    "A-": ["A-", "O-"],
-    "O-": ["O-"],
-    "B-": ["B-", "O-"],
-    "AB-": ["AB-", "A-", "B-", "O-"],
-  };
-  if (!validBloodTypes.includes(bloodType)) {
-    return [];
-  }
-
-  return canReceiveFrom[bloodType];
-};
-
-export const getBloodTypesToDonate = (bloodType) => {
-  const canDonateTo = {
-    "A+": ["A+", "AB+"],
-    "O+": ["O+", "A+", "B+", "AB+"],
-    "B+": ["B+", "AB+"],
-    "AB+": ["AB+"],
-    "A-": ["A+", "A-", "AB+", "AB-"],
-    "O-": ["A+", "B+", "AB+", "A-", "B-", "AB-", "O+", "O-"],
-    "B-": ["B+", "B-", "AB+", "AB-"],
-    "AB-": ["AB+", "AB-"],
-  };
-
-  if (!validBloodTypes.includes(bloodType)) {
-    return [];
-  }
-
-  return canDonateTo[bloodType];
-};

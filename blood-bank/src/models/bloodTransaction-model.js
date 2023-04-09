@@ -1,7 +1,5 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
-const { DonorSchema } = require("./donor-model");
-const Donor = mongoose.model("Donor", DonorSchema);
 
 const BloodTransactionSchema = new Schema(
   {

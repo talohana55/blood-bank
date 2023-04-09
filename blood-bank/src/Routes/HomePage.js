@@ -2,12 +2,16 @@ import React, { useState, useEffect } from "react";
 import moment from "moment";
 import Table from "react-bootstrap/Table";
 import "../Style/HomePage.css";
-import { getAllBloodTransaction } from "../middleware/InternalApi";
+import {
+  getAllBloodTransaction,
+  getAllBloodUnits,
+} from "../middleware/InternalApi";
 import { israel_populationAvg } from "../middleware/functions";
 const HomePage = () => {
-  const [bloodData, setBloodData] = useState([]);
+  const [bloodTransactions, setBloodTransactions] = useState([]);
+  const [bloodInventory, setBloodInventory] = useState([]);
 
-  const getAllBloodData = async () => {
+  const getBloodTransaction = async () => {
     try {
       const response = await getAllBloodTransaction();
       if (response) {
@@ -16,7 +20,19 @@ const HomePage = () => {
           ...item,
           date: moment(item.date).format("DD/MM/YYYY"),
         }));
-        setBloodData(formattedData);
+        setBloodTransactions(formattedData);
+      }
+    } catch (err) {
+      console.error(err);
+      alert("Error Get blood transactions");
+    }
+  };
+  const getBloodInventory = async () => {
+    try {
+      const response = await getAllBloodUnits();
+      console.log(response);
+      if (response) {
+        setBloodInventory(response);
       }
     } catch (err) {
       console.error(err);
@@ -25,28 +41,47 @@ const HomePage = () => {
   };
 
   useEffect(() => {
-    getAllBloodData();
+    getBloodTransaction();
+    getBloodInventory();
   }, []);
 
   return (
     <div className="homePage-container">
       <div className="table-container">
-        <h2> Compatible Blood Type Donors</h2>
+        <h2> Blood Donation Transactions</h2>
         <Table striped bordered hover>
           <thead>
             <tr>
               <th>Blood Type</th>
               <th>Collection Date</th>
-
               <th>Units</th>
             </tr>
           </thead>
           <tbody>
-            {bloodData.map((item) => (
+            {bloodTransactions.map((item) => (
               <tr key={item.cid}>
                 <td>{item.bloodType}</td>
                 <td>{item.date}</td>
                 <td>{item.quantity}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
+      <div className="table-container">
+        <h2> Blood Inventory</h2>
+        <Table striped bordered hover>
+          <thead>
+            <tr>
+              <th>Blood Type</th>
+              <th>Units</th>
+            </tr>
+          </thead>
+          <tbody>
+            {bloodInventory.map((item) => (
+              <tr key={item.cid}>
+                <td>{item.bloodType}</td>
+                <td>{item.units}</td>
               </tr>
             ))}
           </tbody>

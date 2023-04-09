@@ -4,7 +4,6 @@ const { ObjectId } = require("mongodb");
 // GET all blood units
 exports.getAllBloodUnits = async (req, res) => {
   try {
-    console.log("Here");
     const bloodUnits = await BloodUnit.find();
     if (bloodUnits.length) {
       res.status(200).json(bloodUnits);
@@ -51,24 +50,45 @@ exports.createBloodUnit = async (req, res) => {
 };
 
 // PUT (update) an existing blood unit by type
-exports.updateBloodUnitByType = async (req, res) => {
+exports.addBloodUnitByType = async (req, res) => {
   try {
     const { type, quantity } = req.body;
-
-    console.log(type);
     const bloodUnit = await BloodUnit.findOneAndUpdate(
       { bloodType: type },
       { units: +quantity },
       { new: true }
     );
-    console.log(bloodUnit);
     if (bloodUnit) {
-      res.status(200).json("Blood Unit updated successfully!");
+      res.status(200).json({
+        message: `Blood unit ${bloodUnit.bloodType} added successfully`,
+      });
     } else {
       res.status(404).json({ message: "Blood unit not found" });
     }
   } catch (err) {
     res.status(404).json({ message: err.message });
+  }
+};
+exports.subtractBloodUnitByType = async (req, res) => {
+  try {
+    console.log(req.body);
+    const { type, quantity } = req.body;
+    const bloodUnit = await BloodUnit.findOne({ bloodType: type });
+    if (!bloodUnit) {
+      return res.status(404).json({ message: `Blood unit ${type} not found` });
+    }
+    const updatedUnits = Math.max(0, bloodUnit.units - quantity);
+    const updatedBloodUnit = await BloodUnit.findOneAndUpdate(
+      { bloodType: type },
+      { units: updatedUnits },
+      { new: true }
+    );
+    res.status(200).json({
+      message: `Blood unit ${type} subtracted successfully`,
+      bloodUnit: updatedBloodUnit,
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };
 
@@ -79,12 +99,51 @@ exports.deleteBloodUnitById = async (req, res) => {
     const bloodUnit = await BloodUnit.deleteOne({ cid: cid });
     if (bloodUnit.deletedCount === 1) {
       console.log("OK!");
-      res.status(200).json("Blood Unit removed successfully!");
+      res
+        .status(200)
+        .json(`Blood Unit  ${bloodUnit.bloodType} removed successfully!`);
     } else {
       console.log("problem");
       res.status(404).json({ message: err.message });
     }
   } catch (err) {
     res.status(404).json({ message: err.message });
+  }
+};
+
+// Display O negative blood units
+exports.displayONegativeBloodUnit = async (req, res) => {
+  try {
+    const bloodUnit = await BloodUnit.findOne({ bloodType: "O-" });
+
+    if (bloodUnit) {
+      res.status(200).json({ quantity: bloodUnit.units });
+    } else {
+      res.status(404).json({ message: "Blood unit not found" });
+    }
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+};
+
+// GET O negative blood units
+exports.getONegativeBloodUnit = async (req, res) => {
+  try {
+    console.log("Hererere");
+    const type = "O-";
+    const bloodUnit = await BloodUnit.findOne({ bloodType: type });
+    console.log(bloodUnit);
+    if (!bloodUnit) {
+      return res.status(404).json({ message: `Blood unit ${type} not found` });
+    }
+    const quantity = bloodUnit.units;
+    bloodUnit.units = 0;
+    await bloodUnit.save();
+    res.status(200).json({
+      message: `Withdrawn ${quantity} units of O- blood type successfully`,
+      bloodUnit: bloodUnit,
+    });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
   }
 };

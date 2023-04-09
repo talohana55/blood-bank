@@ -1,0 +1,51 @@
+
+.alternative-blood-btn{
+   display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+.alternative-blood-form div {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 10px;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0; z-index: 1;
+}
+.alternative-blood-form p {
+  text-align: center;
+}
+
+.alternative-blood-component button {
+  margin-bottom: 30px;
+  
+}
+
+.alternative-blood-component select,
+.alternative-blood-component input {
+  margin-bottom: 10px;
+}
+
+label {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  margin-right: 10px;
+}
+
+input[type="checkbox"] {
+  margin-right: 5px;
+}
+
+input[type="number"] {
+  flex: 1;
+  margin-left: 10px;
+}
+
+label span {
+  font-weight: bold;
+  width: 100px;
+}
