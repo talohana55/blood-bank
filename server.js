@@ -18,11 +18,14 @@ const bloodUnitsRoutes = require("./routes/bloodUnitRoutes");
 const bloodTransactionsRoutes = require("./routes/bloodTransactionRoutes");
 const donorsRoutes = require("./routes/donorRoutes");
 const hospitalRoutes = require("./routes/hospitalRoutes");
+const hospitalBloodRoutes = require("./routes/hospitalBloodRoutes");
+
 // Use routes
 app.use(bloodUnitsRoutes);
 app.use(bloodTransactionsRoutes);
 app.use(donorsRoutes);
 app.use(hospitalRoutes);
+app.use(hospitalBloodRoutes);
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");

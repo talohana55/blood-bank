@@ -1,18 +1,18 @@
 const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
-const BloodTransactionSchema = new Schema(
+const HospitalBloodSchema = new Schema(
   {
     bloodType: {
       type: String,
       enum: ["A+", "O+", "B+", "AB+", "A-", "O-", "B-", "AB-"],
       required: true,
     },
-    date: {
-      type: Date,
+    hospitalCode: {
+      type: String,
       required: true,
     },
-    donorID: {
+    room: {
       type: String,
       required: true,
     },
@@ -24,9 +24,9 @@ const BloodTransactionSchema = new Schema(
   { timestamps: true }
 );
 
-const BloodTransaction = mongoose.model(
-  "BloodTransaction",
-  BloodTransactionSchema,
-  "BloodTransaction"
+const HospitalBlood = mongoose.model(
+  "HospitalBlood",
+  HospitalBloodSchema,
+  "HospitalBlood"
 );
-module.exports = BloodTransaction;
+module.exports = HospitalBlood;

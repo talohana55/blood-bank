@@ -1,67 +1,99 @@
-import React, { useEffect, useState } from "react";
-import { getAllHospitals } from "../middleware/InternalApi";
+import { useEffect, useState } from "react";
 import {
-  getBloodTypesToReceive,
-  getBloodTypesToDonate,
-  validBloodTypes,
-  roomOptions,
-} from "../middleware/functions";
+  getAllHospitals,
+  createHospitalBlood,
+} from "../middleware/InternalApi";
+import "../Style/bloodAlternatives.css";
+import { validBloodTypes, roomOptions } from "../middleware/functions";
+import BloodAlternatives from "../Components/bloodAlternatives";
 
 const RoutineDispense = () => {
-  //form properties
-  const [bloodType, setBloodType] = useState("");
-  const [quantity, setQuantity] = useState(0);
-  const [room, setRoom] = useState("");
-  var selectedHospital = {};
+  const [
+    displayBloodAlternativesComponent,
+    setDisplayBloodAlternativesComponent,
+  ] = useState(false);
+  // Form data
+  const [formData, setFormData] = useState({
+    bloodType: "",
+    quantity: "",
+    room: 0,
+    selectedHospital: "",
+  });
 
-  //usable parameters
-
-  const [hospitals, setHospital] = useState([]); //include hospitals list from API
-
-  const handleBloodTypeChange = (event) => {
-    setBloodType(event.target.value);
+  // Usable parameters
+  const [hospitals, setHospitals] = useState([]); // include hospitals list from API
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
-  const handleQuantityChange = (event) => {
-    setQuantity(event.target.value);
-  };
-  const handleHospitalChange = (event) => {
-    selectedHospital = event.target.value;
-  };
-  const handleRoomChange = (event) => {
-    setRoom(event.target.value);
-  };
-
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!validBloodTypes.includes(bloodType)) {
+    const isValidBloodType = validBloodTypes.some(
+      (bloodType) => bloodType.type === formData.bloodType
+    );
+    if (!isValidBloodType) {
       alert("Invalid blood type selected");
       return;
     }
+    console.log(formData.bloodType);
+    try {
+      const response = await createHospitalBlood(formData);
+      console.log(response);
+    } catch (error) {
+      alert(error);
+    }
     // reset form values
-    setBloodType("");
-    setQuantity(0);
-    setRoom("");
-    selectedHospital = {};
+    setFormData({
+      bloodType: "",
+      quantity: 0,
+      room: "",
+      selectedHospital: "",
+    });
   };
+
   const getHospitals = async () => {
     try {
       const response = await getAllHospitals();
       if (response) {
-        setHospital(response);
+        setHospitals(response);
       }
     } catch (error) {
       console.log(error);
     }
   };
+
   useEffect(() => {
     getHospitals();
   }, []);
+
   return (
     <div className="form-div">
       <h3>Dispense Blood</h3>
+      <div className="alternative-blood-component">
+        <div className="alternative-blood-btn">
+          <button
+            className="form-input"
+            onClick={() => {
+              setDisplayBloodAlternativesComponent(
+                !displayBloodAlternativesComponent
+              );
+            }}
+          >
+            O Negative
+          </button>
+        </div>
+        {displayBloodAlternativesComponent && <BloodAlternatives />}
+      </div>
       <form className="form" onSubmit={handleSubmit}>
-        <select value={bloodType} onChange={handleBloodTypeChange}>
+        <select
+          name="bloodType"
+          value={formData.bloodType}
+          onChange={handleChange}
+        >
           <option value="">Select Blood Type</option>
           {validBloodTypes.map((blood) => (
             <option key={blood.id} value={blood.type}>
@@ -72,33 +104,37 @@ const RoutineDispense = () => {
 
         <div className="form-input">
           <select
-            value={selectedHospital.hospitalName}
-            onChange={handleHospitalChange}
+            name="selectedHospital"
+            value={formData.selectedHospital}
+            onChange={handleChange}
           >
             <option value="">Select Hospital</option>
             {hospitals.map((hospital) => (
-              <option key={hospital.hospitalCode} value={hospital.hospitalName}>
+              <option key={hospital.hospitalCode} value={hospital.hospitalCode}>
                 {hospital.hospitalName}
               </option>
             ))}
           </select>
         </div>
+
         <div className="form-input">
-          <select value={roomOptions.room} onChange={handleRoomChange}>
+          <select name="room" value={formData.room} onChange={handleChange}>
             <option value="">Select Room</option>
             {roomOptions.map((roomObj) => (
-              <option key={roomObj.id} value={roomObj.room}>
-                {roomObj.room}
+              <option key={roomObj.id} value={roomObj.number}>
+                Room {roomObj.number}
               </option>
             ))}
           </select>
         </div>
+
         <div className="form-input">
           <input
             type="number"
             min="1"
-            value={quantity}
-            onChange={handleQuantityChange}
+            name="quantity"
+            value={formData.quantity !== "" ? parseInt(formData.quantity) : ""}
+            onChange={handleChange}
           />
           <span>Quantity</span>
         </div>

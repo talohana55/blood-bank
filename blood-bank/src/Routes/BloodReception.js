@@ -2,7 +2,7 @@ import { useState } from "react";
 import "../Style/BloodReception.css";
 import {
   createBloodTransaction,
-  updateBloodUnitByType,
+  addBloodUnitByType,
 } from "../middleware/InternalApi";
 
 const BloodReception = () => {
@@ -59,7 +59,7 @@ const BloodReception = () => {
       quantity: quantityInt,
     };
     try {
-      const response = await updateBloodUnitByType(
+      const response = await addBloodUnitByType(
         newDonation.bloodType,
         quantityInt
       );

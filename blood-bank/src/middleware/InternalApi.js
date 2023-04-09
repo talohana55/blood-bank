@@ -110,10 +110,22 @@ export const createBloodUnit = async (bloodUnit) => {
   }
 };
 // PUT (update) an existing blood unit by ID
-export const updateBloodUnitByType = async (type, newQuantity) => {
+export const addBloodUnitByType = async (type, newQuantity) => {
   try {
     const response = await axios.put(
-      `http://localhost:8080/api/bloodUnits/${type}`,
+      `http://localhost:8080/api/bloodUnits/add/${type}`,
+      newQuantity
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+// PUT (update) an existing blood unit by ID
+export const subtractBloodUnitByType = async (type, newQuantity) => {
+  try {
+    const response = await axios.put(
+      `http://localhost:8080/api/bloodUnits/subtract/${type}`,
       newQuantity
     );
     return response.data;
@@ -127,6 +139,26 @@ export const deleteBloodUnitById = async (id) => {
   try {
     const response = await axios.delete(
       `http://localhost:8080/api/bloodUnits/${id}`
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+export const getONegativeBloodUnit = async () => {
+  try {
+    const response = await axios.post(
+      "http://localhost:8080/api/bloodUnits/get/O_negative"
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+export const displayONegativeBloodUnit = async () => {
+  try {
+    const response = await axios.get(
+      "http://localhost:8080/api/bloodUnits/O_negative"
     );
     return response.data;
   } catch (error) {
@@ -220,6 +252,29 @@ export const createHospital = async (hospital) => {
     const response = await axios.post(
       "http://localhost:8080/api/hospital/create",
       hospital
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+//-------------------Emergency Blood API methods ----------------------------------------------------------------
+
+export const getAllHospitalBlood = async () => {
+  try {
+    const response = await axios.get(
+      "http://localhost:8080/api/hospitalBlood/get"
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+export const createHospitalBlood = async (hospitalBlood) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:8080/api/hospitalBlood/create",
+      hospitalBlood
     );
     return response.data;
   } catch (error) {

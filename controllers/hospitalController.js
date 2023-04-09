@@ -27,7 +27,6 @@ exports.getHospitalByCode = async (req, res) => {
     res.status(404).json({ message: err.message });
   }
 };
-
 //Create a new hospital
 exports.createHospital = async (req, res) => {
   try {
