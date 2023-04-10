@@ -1,6 +1,5 @@
 const BloodTransaction = require("../models/bloodTransaction-model");
 const Donor = require("../models/donor-model");
-
 // GET all blood units
 exports.getAllBloodTransaction = async (req, res) => {
   try {
@@ -37,7 +36,7 @@ exports.createBloodTransaction = async (req, res) => {
     if (!donor) {
       return res.status(404).json({ message: "Donor not found" });
     }
-    const bloodTransaction = new BloodTransaction({
+      const bloodTransaction = new BloodTransaction({
       bloodType: req.body.bloodType,
       date: req.body.date,
       donorID: donor.ID,

@@ -23,7 +23,13 @@
   margin-bottom: 30px;
   
 }
-
+.radio-inputs-div{
+  display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 10px;
+    padding-right: 5px;
+}
 .alternative-blood-component select,
 .alternative-blood-component input {
   margin-bottom: 10px;
@@ -48,4 +54,13 @@ input[type="number"] {
 label span {
   font-weight: bold;
   width: 100px;
+}
+.result{
+  display: flex;
+  flex-direction: column;
+}
+
+.result-item {
+  display: block;
+  margin-bottom: 10px;
 }

@@ -14,7 +14,6 @@ const BloodReception = () => {
     bloodType: "",
     quantity: "",
   });
-
   const validBloodTypes = ["A+", "O+", "B+", "AB+", "A-", "O-", "B-", "AB-"];
 
   const handleInputChange = (event) => {

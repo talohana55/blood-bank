@@ -110,11 +110,11 @@ export const createBloodUnit = async (bloodUnit) => {
   }
 };
 // PUT (update) an existing blood unit by ID
-export const addBloodUnitByType = async (type, newQuantity) => {
+export const addBloodUnitByType = async (type, quantity) => {
   try {
     const response = await axios.put(
       `http://localhost:8080/api/bloodUnits/add/${type}`,
-      newQuantity
+      { type, quantity }
     );
     return response.data;
   } catch (error) {
