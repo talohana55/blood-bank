@@ -52,11 +52,11 @@ exports.createBloodUnit = async (req, res) => {
 // PUT (update) an existing blood unit by type
 exports.addBloodUnitByType = async (req, res) => {
   try {
+    console.log(req.body);
     const { type, quantity } = req.body;
     const bloodUnit = await BloodUnit.findOneAndUpdate(
       { bloodType: type },
-      { units: +quantity },
-      { new: true }
+      { $inc: { units: quantity } }
     );
     if (bloodUnit) {
       res.status(200).json({
@@ -69,6 +69,7 @@ exports.addBloodUnitByType = async (req, res) => {
     res.status(404).json({ message: err.message });
   }
 };
+
 exports.subtractBloodUnitByType = async (req, res) => {
   try {
     console.log(req.body);

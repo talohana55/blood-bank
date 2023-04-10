@@ -1,14 +1,27 @@
-/* .homePage-container{
-max-width: 100vw;
-    min-height: calc(100vh - 64px - 64px);
-    grid-template-columns: min-content auto;
-    display: grid;
-    margin: 30px 0;
-    overflow: hidden;
-}
-.table-container{
-    margin: 0;
-    width: 100%;
-    box-shadow: 0px 5px 5px -3px rgb(0 0 0 / 20%), 0px 8px 10px 1px rgb(0 0 0 / 14%), 0px 3px 14px 2px rgb(0 0 0 / 12%);
+.homePage-container{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 350px;
+  width: 800px;
+  flex-direction: column;
+  gap: 32px;
+  border-radius: 15px;
+  background: #dbe6f6; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to top,
+    #c5796d,
+    #dbe6f6
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to top,
+    #c5796d,
+    #dbe6f6
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
 
-} */
+  box-shadow: 16px 16px 32px #c8c8c8, -16px -16px 32px #fefefe;
+  border-radius: 10px;
+  margin-top: 50px;
+  padding-top: 30px;
+}
+

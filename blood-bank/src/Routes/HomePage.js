@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
-import moment from "moment";
 import Table from "react-bootstrap/Table";
+import moment from "moment";
 import "../Style/HomePage.css";
 import {
   getAllBloodTransaction,
@@ -10,6 +10,7 @@ import { israel_populationAvg } from "../middleware/functions";
 const HomePage = () => {
   const [bloodTransactions, setBloodTransactions] = useState([]);
   const [bloodInventory, setBloodInventory] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const getBloodTransaction = async () => {
     try {
@@ -21,22 +22,21 @@ const HomePage = () => {
           date: moment(item.date).format("DD/MM/YYYY"),
         }));
         setBloodTransactions(formattedData);
+        setLoading(false);
       }
     } catch (err) {
-      console.error(err);
-      alert("Error Get blood transactions");
+      alert(`Error Get blood transactions : ${err}`);
     }
   };
   const getBloodInventory = async () => {
     try {
       const response = await getAllBloodUnits();
-      console.log(response);
       if (response) {
         setBloodInventory(response);
+        setLoading(false);
       }
     } catch (err) {
-      console.error(err);
-      alert("Error Get blood transactions");
+      alert(`Error Get blood transactions : ${err}`);
     }
   };
 
@@ -44,12 +44,14 @@ const HomePage = () => {
     getBloodTransaction();
     getBloodInventory();
   }, []);
-
+  if (loading) {
+    return <div>Loading...</div>;
+  }
   return (
     <div className="homePage-container">
       <div className="table-container">
         <h2> Blood Donation Transactions</h2>
-        <Table striped bordered hover>
+        <Table striped bordered hover size="sm">
           <thead>
             <tr>
               <th>Blood Type</th>
@@ -70,7 +72,7 @@ const HomePage = () => {
       </div>
       <div className="table-container">
         <h2> Blood Inventory</h2>
-        <Table striped bordered hover>
+        <Table striped bordered hover size="sm">
           <thead>
             <tr>
               <th>Blood Type</th>
@@ -89,7 +91,7 @@ const HomePage = () => {
       </div>
       <div className="table-container">
         <h2>Population Blood Type</h2>
-        <Table striped bordered hover>
+        <Table striped bordered hover size="sm">
           <thead>
             <tr>
               <th>Country</th>
