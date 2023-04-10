@@ -49,8 +49,6 @@ const BloodAlternatives = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log("Selected Blood Types:", selectedTypes);
-    console.log("Amount:", amount);
     const bloodTypeMatches = [];
     selectedTypes.forEach((selectedType) => {
       canReceiveFrom.forEach((canReceive) => {
