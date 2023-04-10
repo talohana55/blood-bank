@@ -6,7 +6,7 @@ import {
 } from "../middleware/InternalApi";
 import "../Style/bloodAlternatives.css";
 import { validBloodTypes, roomOptions } from "../middleware/functions";
-import BloodAlternatives from "../Components/bloodAlternatives";
+import BloodAlternatives from "../components/bloodAlternatives";
 
 const RoutineDispense = () => {
   const [bloodInventory, setBloodInventory] = useState([]);
