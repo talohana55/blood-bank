@@ -30,25 +30,21 @@ exports.createHospitalBlood = async (req, res) => {
     if (!bloodUnit) {
       return res.status(404).json({ message: "Blood Unit not found" });
     } else {
-      if (bloodUnit.bloodType !== "O-") {
-        if (bloodUnit.units < req.body.quantity) {
-          return res.status(400).json({
-            message: `Insufficient ${bloodUnit.bloodType} blood quantity`,
-          });
+      if (bloodUnit.units < req.body.quantity) {
+        return res.status(400).json({
+          message: `Insufficient ${bloodUnit.bloodType} blood quantity`,
+        });
+      } else {
+        const updatedBloodUnit = await BloodUnit.findOneAndUpdate(
+          { bloodType: bloodUnit.bloodType },
+          { units: bloodUnit.units - req.body.quantity },
+          { new: true }
+        );
+        if (updatedBloodUnit) {
+          console.log("Blood Unit updated successfully!");
         } else {
-          const updatedBloodUnit = await BloodUnit.findOneAndUpdate(
-            { bloodType: bloodUnit.bloodType },
-            { units: bloodUnit.units - req.body.quantity },
-            { new: true }
-          );
-          if (updatedBloodUnit) {
-            console.log("Blood Unit updated successfully!");
-          } else {
-            console.log("Blood unit not found");
-          }
+          console.log("Blood unit not found");
         }
-      } else {// recommend all blood units by max quantity
-        
       }
     }
     if (!hospital) {

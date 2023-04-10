@@ -2,12 +2,15 @@ import { useEffect, useState } from "react";
 import {
   getAllHospitals,
   createHospitalBlood,
+  getAllBloodUnits,
 } from "../middleware/InternalApi";
 import "../Style/bloodAlternatives.css";
 import { validBloodTypes, roomOptions } from "../middleware/functions";
 import BloodAlternatives from "../Components/bloodAlternatives";
 
 const RoutineDispense = () => {
+  const [bloodInventory, setBloodInventory] = useState([]);
+  const [hospitals, setHospitals] = useState([]); // include hospitals list from API
   const [
     displayBloodAlternativesComponent,
     setDisplayBloodAlternativesComponent,
@@ -15,46 +18,10 @@ const RoutineDispense = () => {
   // Form data
   const [formData, setFormData] = useState({
     bloodType: "",
-    quantity: "",
+    quantity: 0,
     room: 0,
     selectedHospital: "",
   });
-
-  // Usable parameters
-  const [hospitals, setHospitals] = useState([]); // include hospitals list from API
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-    setFormData((prevState) => ({
-      ...prevState,
-      [name]: value,
-    }));
-  };
-
-  const handleSubmit = async (event) => {
-    event.preventDefault();
-    const isValidBloodType = validBloodTypes.some(
-      (bloodType) => bloodType.type === formData.bloodType
-    );
-    if (!isValidBloodType) {
-      alert("Invalid blood type selected");
-      return;
-    }
-    console.log(formData.bloodType);
-    try {
-      const response = await createHospitalBlood(formData);
-      console.log(response);
-    } catch (error) {
-      alert(error);
-    }
-    // reset form values
-    setFormData({
-      bloodType: "",
-      quantity: 0,
-      room: "",
-      selectedHospital: "",
-    });
-  };
-
   const getHospitals = async () => {
     try {
       const response = await getAllHospitals();
@@ -65,9 +32,84 @@ const RoutineDispense = () => {
       console.log(error);
     }
   };
+  const getBloodInventory = async () => {
+    try {
+      const response = await getAllBloodUnits();
+      if (response) {
+        setBloodInventory(response);
+      }
+    } catch (err) {
+      alert(`Error Get blood transactions : ${err}`);
+    }
+  };
+  const handleChange = (event) => {
+    const { name, value } = event.target;
+    setFormData((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
+  };
+
+  const handleSubmit = async (event) => {
+    event.preventDefault();
+
+    const userBloodType = bloodInventory.find(
+      (bloodUnit) => bloodUnit.bloodType === formData.bloodType
+    );
+
+    if (!userBloodType) {
+      alert("The selected blood type is not available.");
+      return;
+    }
+
+    if (userBloodType.units < formData.quantity) {
+      const availableBloodTypes = bloodInventory.filter(
+        (obj) =>
+          obj.units >= formData.quantity &&
+          obj.bloodType !== userBloodType.bloodType
+      );
+      if (availableBloodTypes.length === 0) {
+        alert("The requested blood type is not available.");
+        return;
+      }
+      const suggestion =
+        availableBloodTypes.length > 1
+          ? availableBloodTypes.map((type) => type.bloodType).join(", ")
+          : availableBloodTypes[0].bloodType;
+      const confirm = window.confirm(
+        `The requested quantity is not available for ${userBloodType.bloodType}. Would you like to request ${formData.quantity} units of ${suggestion} instead?`
+      );
+      if (confirm) {
+        setFormData((prevState) => ({
+          ...prevState,
+          bloodType: availableBloodTypes[0].bloodType,
+        }));
+        return;
+      } else {
+        return;
+      }
+    }
+
+    try {
+      const response = await createHospitalBlood(formData);
+      console.log(response);
+      alert("The request has been successfully submitted.");
+    } catch (error) {
+      alert(error);
+    }
+
+    // reset form values
+    setFormData({
+      bloodType: "",
+      quantity: 0,
+      room: "",
+      selectedHospital: "",
+    });
+  };
 
   useEffect(() => {
     getHospitals();
+    getBloodInventory();
   }, []);
 
   return (
