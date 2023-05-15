@@ -1,6 +1,7 @@
 const HospitalBlood = require("../models/hospitalBlood-model");
 const Hospital = require("../models/hospital-model");
 const BloodUnit = require("../models/bloodUnit-model");
+const { saveLog } = require("./logger");
 
 exports.getAllHospitalBlood = async (req, res) => {
   try {
@@ -41,6 +42,10 @@ exports.createHospitalBlood = async (req, res) => {
           { new: true }
         );
         if (updatedBloodUnit) {
+          saveLog(
+            "createHospitalBlood",
+            `updated Blood Unit type: ${updatedBloodUnit.bloodType}, units: ${updatedBloodUnit.units}`
+          );
           console.log("Blood Unit updated successfully!");
         } else {
           console.log("Blood unit not found");
@@ -57,7 +62,10 @@ exports.createHospitalBlood = async (req, res) => {
       quantity: req.body.quantity,
     });
     await hospitalBlood.save();
-
+    saveLog(
+      "createHospitalBlood",
+      `Blood Unit type: ${hospitalBlood.bloodType}, units: ${hospitalBlood.quantity}, hospital code: ${hospitalBlood.hospitalCode}`
+    );
     res.status(201).json(hospitalBlood);
   } catch (err) {
     res.status(500).json({ message: err.message });
