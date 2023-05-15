@@ -19,6 +19,7 @@ const bloodTransactionsRoutes = require("./routes/bloodTransactionRoutes");
 const donorsRoutes = require("./routes/donorRoutes");
 const hospitalRoutes = require("./routes/hospitalRoutes");
 const hospitalBloodRoutes = require("./routes/hospitalBloodRoutes");
+const loggerRoutes = require("./routes/loggerRoutes");
 
 // Use routes
 app.use(bloodUnitsRoutes);
@@ -26,6 +27,7 @@ app.use(bloodTransactionsRoutes);
 app.use(donorsRoutes);
 app.use(hospitalRoutes);
 app.use(hospitalBloodRoutes);
+app.use(loggerRoutes);
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");

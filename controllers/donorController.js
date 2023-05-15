@@ -1,4 +1,6 @@
 const Donor = require("../models/donor-model");
+const { saveLog } = require('./logger');
+
 // Get all donors
 exports.getAllDonors = async (req, res) => {
   try {
@@ -38,6 +40,7 @@ exports.createDonor = async (req, res) => {
       ...req.body,
     });
     await donor.save();
+    saveLog("createDonor", `Donor id: ${donor.cid}`);
     res.status(200).json(donor);
   } catch (err) {
     res.status(400).json({ message: err.message });
@@ -54,6 +57,7 @@ exports.updateDonor = async (req, res) => {
     );
     if (donor) {
       console.log("OK!");
+      saveLog("updateDonor", `Donor id: ${donor.cid}`);
       res.status(200).json("Donor updated successfully!");
     } else {
       console.log("problem");
@@ -71,6 +75,7 @@ exports.deleteDonor = async (req, res) => {
     const donor = await Donor.deleteOne({ cid: cid });
     if (donor.deletedCount === 1) {
       console.log("OK!");
+      saveLog("deleteDonor", `Donor id: ${donor.cid}`);
       res.status(200).json("Donor removed successfully!");
     } else {
       console.log("problem");

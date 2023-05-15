@@ -281,3 +281,18 @@ export const createHospitalBlood = async (hospitalBlood) => {
     throw new Error(error.message);
   }
 };
+
+//------------------- Logger methods ----------------------------------------------------------------
+
+export const getLogs = async () => {
+  
+  try {
+    const response = await axios.get(
+      "http://localhost:8080/logger",
+    );
+    
+    return response.data;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};

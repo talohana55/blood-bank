@@ -1,5 +1,6 @@
 const BloodUnit = require("../models/bloodUnit-model");
 const { ObjectId } = require("mongodb");
+const { saveLog } = require("./logger");
 
 // GET all blood units
 exports.getAllBloodUnits = async (req, res) => {
@@ -43,6 +44,7 @@ exports.createBloodUnit = async (req, res) => {
       ...req.body,
     });
     await bloodUnit.save();
+    saveLog("createBloodUnit", `Blood Unit id: ${bloodUnit.cid}`);
     res.status(201).json(bloodUnit);
   } catch (error) {
     res.status(400).json({ message: error.message });
@@ -59,6 +61,10 @@ exports.addBloodUnitByType = async (req, res) => {
       { $inc: { units: quantity } }
     );
     if (bloodUnit) {
+      saveLog(
+        "addBloodUnitByType",
+        `Blood Unit type: ${type}, quantity: ${quantity}`
+      );
       res.status(200).json({
         message: `Blood unit ${bloodUnit.bloodType} added successfully`,
       });
@@ -84,6 +90,10 @@ exports.subtractBloodUnitByType = async (req, res) => {
       { units: updatedUnits },
       { new: true }
     );
+    saveLog(
+      "subtractBloodUnitByType",
+      `Blood Unit type: ${type}, quantity: ${quantity}, updated quantity: ${updatedUnits}`
+    );
     res.status(200).json({
       message: `Blood unit ${type} subtracted successfully`,
       bloodUnit: updatedBloodUnit,
@@ -100,6 +110,7 @@ exports.deleteBloodUnitById = async (req, res) => {
     const bloodUnit = await BloodUnit.deleteOne({ cid: cid });
     if (bloodUnit.deletedCount === 1) {
       console.log("OK!");
+      saveLog("deleteBloodUnitById", `Blood Unit type: ${type}`);
       res
         .status(200)
         .json(`Blood Unit  ${bloodUnit.bloodType} removed successfully!`);
