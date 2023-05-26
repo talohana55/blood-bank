@@ -16,6 +16,12 @@ const BloodTransactionSchema = new Schema(
       type: String,
       required: true,
     },
+    splitTransaction: {
+      wholeBlood: { type: Boolean, default: true },
+      compressedSpherules: { type: Boolean },
+      platelets: { type: Boolean },
+      plasmaCryo: { type: Boolean },
+    },
     quantity: {
       type: Number,
       required: true,

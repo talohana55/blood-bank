@@ -2,6 +2,7 @@ const User = require("../models/user-model");
 const bcrypt = require("bcrypt");
 
 const BCRYT_SALT_ROUNDS = 10;
+
 exports.registerAdminUser = async (req, res) => {
   try {
     const username = req.body.username;
@@ -27,6 +28,7 @@ exports.registerAdminUser = async (req, res) => {
 
 exports.registerUserUser = async (req, res) => {
   try {
+    
     const username = req.body.username;
     const password = req.body.password;
     const user = User.findOne({ username: username });
@@ -70,6 +72,7 @@ exports.registerStudentUser = async (req, res) => {
     res.status(400).json({ message: err.message });
   }
 };
+
 
 exports.loginAdminUser = async (req, res) => {
   try {
