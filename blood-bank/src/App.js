@@ -6,6 +6,7 @@ import RoutineDispense from "./Routes/routineDispense";
 import EmergencyDispense from "./Routes/EmergencyDispense";
 import NavBar from "./components/NavBar";
 import HomePage from "./Routes/HomePage";
+import Logger from "./Routes/Logger";
 
 function App() {
    return (
@@ -18,6 +19,7 @@ function App() {
             <Route element={<BloodReception />} path="/bloodReception" />
             <Route element={<RoutineDispense />} path="/routineDispense" />
             <Route element={<EmergencyDispense />} path="/emergencyDispense" />
+            <Route element={<Logger />} path="/logger" />
           </Routes>
         </main>
       </div>

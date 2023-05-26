@@ -1,6 +1,7 @@
 const HospitalBlood = require("../models/hospitalBlood-model");
 const Hospital = require("../models/hospital-model");
 const BloodUnit = require("../models/bloodUnit-model");
+const { saveLog } = require("./logger");
 
 exports.getAllHospitalBlood = async (req, res) => {
   try {

@@ -1,4 +1,6 @@
 const Hospital = require("../models/hospital-model");
+const { saveLog } = require("./logger");
+
 // Get all hospital's
 exports.getAllHospitals = async (req, res) => {
   try {
@@ -37,6 +39,7 @@ exports.createHospital = async (req, res) => {
       ...req.body,
     });
     await hospital.save();
+    saveLog("createHospital", `Hospital id: ${hospital.cid}`);
     res.status(200).json(hospital);
   } catch (err) {
     res.status(400).json({ message: err.message });
