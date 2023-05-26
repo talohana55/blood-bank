@@ -18,7 +18,6 @@ exports.getAllHospitalBlood = async (req, res) => {
 
 exports.createHospitalBlood = async (req, res) => {
   try {
-    console.log(req.body);
     const bloodUnit = await BloodUnit.findOne({
       bloodType: req.body.bloodType,
     });
@@ -42,13 +41,9 @@ exports.createHospitalBlood = async (req, res) => {
           { new: true }
         );
         if (updatedBloodUnit) {
-          saveLog(
-            "createHospitalBlood",
-            `updated Blood Unit type: ${updatedBloodUnit.bloodType}, units: ${updatedBloodUnit.units}`
-          );
-          console.log("Blood Unit updated successfully!");
+          alert("Blood Unit updated successfully!");
         } else {
-          console.log("Blood unit not found");
+          alert("Blood unit not found");
         }
       }
     }
@@ -62,10 +57,7 @@ exports.createHospitalBlood = async (req, res) => {
       quantity: req.body.quantity,
     });
     await hospitalBlood.save();
-    saveLog(
-      "createHospitalBlood",
-      `Blood Unit type: ${hospitalBlood.bloodType}, units: ${hospitalBlood.quantity}, hospital code: ${hospitalBlood.hospitalCode}`
-    );
+
     res.status(201).json(hospitalBlood);
   } catch (err) {
     res.status(500).json({ message: err.message });

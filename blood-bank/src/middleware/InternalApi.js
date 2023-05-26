@@ -88,7 +88,6 @@ export const getAllBloodUnits = async () => {
 };
 export const getBloodUnitByType = async (type) => {
   try {
-    console.log(type);
     const response = await axios.get(
       `http://localhost:8080/api/bloodUnits/get/${type}`
     );

@@ -62,16 +62,13 @@ const BloodReception = () => {
         newDonation.bloodType,
         quantityInt
       );
-      console.log(response);
     } catch (error) {
       alert(error);
     }
     try {
       const response = await createBloodTransaction(newDonation);
-      console.log(response);
       alert("Blood transaction created successfully");
     } catch (error) {
-      console.log(error);
       alert("Error creating blood transaction");
     }
   };

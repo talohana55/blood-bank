@@ -56,11 +56,8 @@ exports.updateDonor = async (req, res) => {
       { new: true }
     );
     if (donor) {
-      console.log("OK!");
-      saveLog("updateDonor", `Donor id: ${donor.cid}`);
       res.status(200).json("Donor updated successfully!");
     } else {
-      console.log("problem");
       res.status(404).json({ message: err.message });
     }
   } catch (err) {
@@ -74,11 +71,8 @@ exports.deleteDonor = async (req, res) => {
     const { cid } = req.body;
     const donor = await Donor.deleteOne({ cid: cid });
     if (donor.deletedCount === 1) {
-      console.log("OK!");
-      saveLog("deleteDonor", `Donor id: ${donor.cid}`);
       res.status(200).json("Donor removed successfully!");
     } else {
-      console.log("problem");
       res.status(404).json({ message: err.message });
     }
   } catch (err) {

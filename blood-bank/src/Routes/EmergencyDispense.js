@@ -24,7 +24,7 @@ const EmergencyDispense = () => {
       const response = await getONegativeBloodUnit();
       alert(response.message);
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   };
 
