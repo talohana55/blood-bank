@@ -52,7 +52,6 @@ exports.createBloodUnit = async (req, res) => {
 // PUT (update) an existing blood unit by type
 exports.addBloodUnitByType = async (req, res) => {
   try {
-    console.log(req.body);
     const { type, quantity } = req.body;
     const bloodUnit = await BloodUnit.findOneAndUpdate(
       { bloodType: type },
@@ -72,7 +71,6 @@ exports.addBloodUnitByType = async (req, res) => {
 
 exports.subtractBloodUnitByType = async (req, res) => {
   try {
-    console.log(req.body);
     const { type, quantity } = req.body;
     const bloodUnit = await BloodUnit.findOne({ bloodType: type });
     if (!bloodUnit) {
@@ -99,12 +97,10 @@ exports.deleteBloodUnitById = async (req, res) => {
     const { cid } = req.body;
     const bloodUnit = await BloodUnit.deleteOne({ cid: cid });
     if (bloodUnit.deletedCount === 1) {
-      console.log("OK!");
       res
         .status(200)
         .json(`Blood Unit  ${bloodUnit.bloodType} removed successfully!`);
     } else {
-      console.log("problem");
       res.status(404).json({ message: err.message });
     }
   } catch (err) {
@@ -130,10 +126,8 @@ exports.displayONegativeBloodUnit = async (req, res) => {
 // GET O negative blood units
 exports.getONegativeBloodUnit = async (req, res) => {
   try {
-    console.log("Hererere");
     const type = "O-";
     const bloodUnit = await BloodUnit.findOne({ bloodType: type });
-    console.log(bloodUnit);
     if (!bloodUnit) {
       return res.status(404).json({ message: `Blood unit ${type} not found` });
     }

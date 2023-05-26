@@ -17,7 +17,6 @@ exports.getAllHospitalBlood = async (req, res) => {
 
 exports.createHospitalBlood = async (req, res) => {
   try {
-    console.log(req.body);
     const bloodUnit = await BloodUnit.findOne({
       bloodType: req.body.bloodType,
     });
@@ -41,9 +40,9 @@ exports.createHospitalBlood = async (req, res) => {
           { new: true }
         );
         if (updatedBloodUnit) {
-          console.log("Blood Unit updated successfully!");
+          alert("Blood Unit updated successfully!");
         } else {
-          console.log("Blood unit not found");
+          alert("Blood unit not found");
         }
       }
     }

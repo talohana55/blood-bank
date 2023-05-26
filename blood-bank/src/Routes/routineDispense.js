@@ -29,7 +29,7 @@ const RoutineDispense = () => {
         setHospitals(response);
       }
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   };
   const getBloodInventory = async () => {
@@ -92,7 +92,6 @@ const RoutineDispense = () => {
 
     try {
       const response = await createHospitalBlood(formData);
-      console.log(response);
       alert("The request has been successfully submitted.");
     } catch (error) {
       alert(error);

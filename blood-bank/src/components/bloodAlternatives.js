@@ -44,7 +44,7 @@ const BloodAlternatives = () => {
         setBloodData(response);
       }
     } catch (error) {
-      console.log(error);
+      alert(error);
     }
   };
   const handleSubmit = (e) => {

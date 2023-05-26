@@ -59,10 +59,8 @@ exports.updateBloodTransactionById = async (req, res) => {
       { new: true }
     );
     if (bloodTransaction) {
-      console.log("OK!");
       res.status(200).json("blood Transaction  updated successfully!");
     } else {
-      console.log("problem");
       res.status(404).json({ message: err.message });
     }
   } catch (err) {
@@ -76,10 +74,8 @@ exports.deleteBloodTransactionById = async (req, res) => {
     const { cid } = req.body;
     const bloodTransaction = await BloodTransaction.deleteOne({ cid: cid });
     if (bloodTransaction.deletedCount === 1) {
-      console.log("OK!");
       res.status(200).json("blood Transaction removed successfully!");
     } else {
-      console.log("problem");
       res.status(404).json({ message: err.message });
     }
   } catch (err) {
