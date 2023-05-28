@@ -3,6 +3,7 @@ const express = require("express");
 const bodyParser = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
+
 const app = express();
 
 app.use(cors());
@@ -53,4 +54,6 @@ async function connect() {
   }
 }
 connect();
+
+
 app.listen(PORT, console.log(`The server is running on port: ${PORT}`));

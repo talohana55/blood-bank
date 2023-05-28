@@ -2,10 +2,6 @@ const mongoose = require("mongoose");
 const { Schema } = mongoose;
 
 const BloodUnitSchema = new Schema({
-  cid: {
-    type: String,
-    unique: true,
-  },
   bloodType: {
     type: String,
     enum: ["A+", "O+", "B+", "AB+", "A-", "O-", "B-", "AB-"],

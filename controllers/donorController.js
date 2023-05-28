@@ -1,5 +1,5 @@
 const Donor = require("../models/donor-model");
-const { saveLog } = require('./logger');
+const { saveLog } = require("./logger");
 
 // Get all donors
 exports.getAllDonors = async (req, res) => {
@@ -18,8 +18,8 @@ exports.getAllDonors = async (req, res) => {
 // Get a single donor
 exports.getDonor = async (req, res) => {
   try {
-    const { ID } = req.params;
-    const donor = await Donor.findOne({ ID });
+    const { id } = req.params;
+    const donor = await Donor.findById({ _id: id });
     if (donor) {
       res.status(200).json(donor);
     } else {
@@ -33,15 +33,31 @@ exports.getDonor = async (req, res) => {
 //Create a new donor
 exports.createDonor = async (req, res) => {
   try {
-    var ObjectID = require("mongodb").ObjectId;
-    var objectId = new ObjectID();
-    const donor = new Donor({
-      cid: objectId,
-      ...req.body,
+    const {
+      donorID,
+      fullName,
+      email,
+      address,
+      date,
+      creditCard,
+      healthCondition,
+    } = req.body;
+    const newDonor = new Donor({
+      donorID,
+      fullName,
+      email,
+      address,
+      date,
+      creditCard,
+      healthCondition,
     });
-    await donor.save();
-    saveLog("createDonor", `Donor id: ${donor.cid}`);
-    res.status(200).json(donor);
+    // Save the new donor in the database
+    const savedDonor = await newDonor.save();
+    saveLog("createDonor", `Donor id: ${savedDonor.donorID}`);
+    res.status(201).json({
+      message: "Donor created successfully",
+      donor: savedDonor,
+    });
   } catch (err) {
     res.status(400).json({ message: err.message });
   }
@@ -51,13 +67,13 @@ exports.createDonor = async (req, res) => {
 exports.updateDonor = async (req, res) => {
   try {
     const donor = await Donor.findOneAndUpdate(
-      { cid: req.body.cid },
+      { _id: req.body._id },
       { ...req.body },
       { new: true }
     );
     if (donor) {
       console.log("OK!");
-      saveLog("updateDonor", `Donor id: ${donor.cid}`);
+      saveLog("updateDonor", `Donor id: ${donor._id}`);
       res.status(200).json("Donor updated successfully!");
     } else {
       console.log("problem");
@@ -71,11 +87,11 @@ exports.updateDonor = async (req, res) => {
 // Delete a donor
 exports.deleteDonor = async (req, res) => {
   try {
-    const { cid } = req.body;
-    const donor = await Donor.deleteOne({ cid: cid });
+    const { _id } = req.body;
+    const donor = await Donor.deleteOne({ _id });
     if (donor.deletedCount === 1) {
       console.log("OK!");
-      saveLog("deleteDonor", `Donor id: ${donor.cid}`);
+      saveLog("deleteDonor", `Donor id: ${donor._id}`);
       res.status(200).json("Donor removed successfully!");
     } else {
       console.log("problem");

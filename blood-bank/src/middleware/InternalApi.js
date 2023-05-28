@@ -168,7 +168,7 @@ export const displayONegativeBloodUnit = async () => {
 // GET all blood units
 export const getAllDonors = async () => {
   try {
-    const response = await axios.get("http://localhost:8080/api/donors/get");
+    const response = await axios.get("http://localhost:8080/api/donor/donors");
     return response.data;
   } catch (error) {
     throw new Error(error.message);
@@ -178,7 +178,9 @@ export const getAllDonors = async () => {
 // GET a single blood transaction by ID
 export const getDonor = async (id) => {
   try {
-    const response = await axios.get(`http://localhost:8080/api/donors/${id}`);
+    const response = await axios.get(
+      `http://localhost:8080/api/donor/get/${id}`
+    );
     return response.data;
   } catch (error) {
     throw new Error(error.message);
@@ -187,9 +189,10 @@ export const getDonor = async (id) => {
 
 // POST a new blood transaction
 export const createDonor = async (donor) => {
+  console.log(donor);
   try {
     const response = await axios.post(
-      "http://localhost:8080/api/donors/create",
+      "http://localhost:8080/api/donor/create",
       donor
     );
     return response.data;
@@ -202,7 +205,7 @@ export const createDonor = async (donor) => {
 export const updateDonor = async (id, updatedDonor) => {
   try {
     const response = await axios.put(
-      `http://localhost:8080/api/donors/${id}`,
+      `http://localhost:8080/api/donor/update/${id}`,
       updatedDonor
     );
     return response.data;
@@ -215,7 +218,7 @@ export const updateDonor = async (id, updatedDonor) => {
 export const deleteDonor = async (id) => {
   try {
     const response = await axios.delete(
-      `http://localhost:8080/api/donors/${id}`
+      `http://localhost:8080/api/donor/delete/${id}`
     );
     return response.data;
   } catch (error) {
@@ -284,12 +287,9 @@ export const createHospitalBlood = async (hospitalBlood) => {
 //------------------- Logger methods ----------------------------------------------------------------
 
 export const getLogs = async () => {
-  
   try {
-    const response = await axios.get(
-      "http://localhost:8080/logger",
-    );
-    
+    const response = await axios.get("http://localhost:8080/logger");
+
     return response.data;
   } catch (error) {
     throw new Error(error.message);

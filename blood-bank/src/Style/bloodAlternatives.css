@@ -64,3 +64,27 @@ label span {
   display: block;
   margin-bottom: 10px;
 }
+
+.medical-questionnaire {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.medical-questionnaire .checkbox-question {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin-bottom: 10px;
+  border: 1px solid black;
+}
+
+.medical-questionnaire .checkbox-question label {
+  flex-grow: 1;
+  margin-right: 10px;
+  padding: 3px 50px;
+}
+
+.medical-questionnaire .checkbox-question input[type="checkbox"] {
+  margin-left: 10px;
+}
+

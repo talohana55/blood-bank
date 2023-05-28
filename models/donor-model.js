@@ -22,9 +22,6 @@ const DonorSchema = new mongoose.Schema(
       type: Date,
       required: true,
     },
-    healthCondition: {
-      type: Boolean,
-    },
     creditCard: {
       cardNumber: {
         type: String,
@@ -42,6 +39,56 @@ const DonorSchema = new mongoose.Schema(
       cvv: {
         type: String,
         required: true,
+      },
+    },
+    healthCondition: {
+      hasReceivedGrowthHormoneTreatment: {
+        type: Boolean,
+        default: false,
+      },
+      hasFamilyNeurologicalDisease: {
+        type: Boolean,
+        default: false,
+      },
+      hasStayedInUK: {
+        type: Boolean,
+        default: false,
+      },
+      hasReceivedPaymentForSex: {
+        type: Boolean,
+        default: false,
+      },
+      hasPartnerWithHIV: {
+        type: Boolean,
+        default: false,
+      },
+      isHemophiliaPatient: {
+        type: Boolean,
+        default: false,
+      },
+      hasUsedIllegalDrugs: {
+        type: Boolean,
+        default: false,
+      },
+      hasUsedInjectedOrSnortedDrugs: {
+        type: Boolean,
+        default: false,
+      },
+      isCarrierOfHepatitis: {
+        type: Boolean,
+        default: false,
+      },
+      hasStayedInHighPrevalenceAIDSCountry: {
+        type: Boolean,
+        default: false,
+      },
+      hasEngagedInSexBetweenMen: {
+        type: Boolean,
+        default: false,
+      },
+      hasEngagedInSexWithHighRiskPartners: {
+        type: Boolean,
+        default: false,
       },
     },
   },
