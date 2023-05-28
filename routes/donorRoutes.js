@@ -10,10 +10,10 @@ const {
 
 const router = express.Router();
 
-router.route("/api/donors/get").get(getAllDonors);
-router.route("/api/donors/get/:ID").get(getDonor);
-router.route("/api/donors/create").post(createDonor);
-router.route("/api/donors/:id").put(updateDonor);
-router.route("/api/donors/:id").delete(deleteDonor);
+router.route("/api/donor/donors").get(getAllDonors);
+router.route("/api/donor/get/:id").get(getDonor);
+router.route("/api/donor/create").post(createDonor);
+router.route("/api/donor/update/:id").put(updateDonor);
+router.route("/api/donor/delete/:id").delete(deleteDonor);
 
 module.exports = router;
