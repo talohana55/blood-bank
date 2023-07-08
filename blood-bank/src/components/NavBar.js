@@ -8,6 +8,11 @@ import "../Style/NavBar.css";
 import { getLogs } from "../middleware/InternalApi";
 
 const NavBar = () => {
+  const logExport = () => {
+    getLogs();
+    alert("Create Log File!");
+  };
+
   return (
     <Navbar expand="lg" className="navbar-container">
       <Container>
@@ -20,21 +25,18 @@ const NavBar = () => {
             <Nav.Link as={Link} to="/bloodReception" className="nav-link">
               Blood Reception
             </Nav.Link>
+            <Nav.Link as={Link} to="/bloodtypeDonors" className="nav-link">
+              Blood Type Donors
+            </Nav.Link>
             <Nav.Link as={Link} to="/routineDispense" className="nav-link">
               Routine Dispense
             </Nav.Link>
             <Nav.Link as={Link} to="/emergencyDispense" className="nav-link">
               Emergency
             </Nav.Link>
-            <Button
-              onClick={() => {
-                getLogs();
-                alert("Create Log File!");
-              }}
-              className="nav-btn nav-link"
-            >
+            <Nav.Link as={Button} onClick={logExport} className="nav-btn nav-link">
               Export Log File
-            </Button>
+            </Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

@@ -4,13 +4,14 @@ import {
   createHospitalBlood,
   getAllBloodUnits,
 } from "../middleware/InternalApi";
-import "../Style/bloodAlternatives.css";
+import "../Style/RoutineDispense.css";
 import { validBloodTypes, roomOptions } from "../middleware/functions";
 import BloodAlternatives from "../components/bloodAlternatives";
 
 const RoutineDispense = () => {
   const [bloodInventory, setBloodInventory] = useState([]);
   const [hospitals, setHospitals] = useState([]); // include hospitals list from API
+  const [urgentCollection, setUrgentCollection] = useState(false);
   const [
     displayBloodAlternativesComponent,
     setDisplayBloodAlternativesComponent,
@@ -21,6 +22,7 @@ const RoutineDispense = () => {
     quantity: 0,
     room: 0,
     selectedHospital: "",
+    urgentCollectionFlag: false,
   });
   const getHospitals = async () => {
     try {
@@ -103,7 +105,59 @@ const RoutineDispense = () => {
       quantity: 0,
       room: "",
       selectedHospital: "",
+      urgentCollectionFlag: false,
     });
+  };
+
+  const UrgentCollectionTime = () => {
+    const currentTime = new Date();
+    const endTime = new Date();
+    endTime.setHours(currentTime.getHours() + 3);
+
+    const options = [];
+
+    while (currentTime <= endTime) {
+      const timeString = currentTime.toLocaleTimeString([], {
+        hour: "2-digit",
+        minute: "2-digit",
+      });
+      options.push(
+        <option key={timeString} value={timeString}>
+          {timeString}
+        </option>
+      );
+
+      currentTime.setMinutes(currentTime.getMinutes() + 30);
+    }
+
+    const handleCheckboxChange = (event) => {
+      const isUrgent = event.target.checked;
+      setUrgentCollection(isUrgent);
+      setFormData((prevState) => ({
+        ...prevState,
+        urgentCollectionFlag: isUrgent
+      }))
+    };
+
+    return (
+      <div>
+        <div className="urgent-collect">
+          <input
+            type="checkbox"
+            name="urgentCollection"
+            checked={urgentCollection}
+            onChange={handleCheckboxChange}
+          />
+          <span>Urgent Collection</span>
+        </div>
+
+        {urgentCollection && (
+          <div className="urgent-collect-times">
+            <select name="collect-time">{options}</select>
+          </div>
+        )}
+      </div>
+    );
   };
 
   useEffect(() => {
@@ -179,6 +233,8 @@ const RoutineDispense = () => {
           />
           <span>Quantity</span>
         </div>
+
+        <UrgentCollectionTime />
 
         <button type="submit">Submit</button>
       </form>

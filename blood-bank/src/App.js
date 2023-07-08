@@ -6,6 +6,7 @@ import RoutineDispense from "./Routes/routineDispense";
 import EmergencyDispense from "./Routes/EmergencyDispense";
 import DonationForm from "./Routes/DonationForm";
 import HomePage from "./Routes/HomePage";
+import BloodTypesDonors from "./Routes/BloodTypesDonors";
 import NavBar from "./components/NavBar";
 
 function App() {
@@ -27,7 +28,8 @@ function App() {
             {userType === "donor" && (
               <>
                 <Route element={<BloodReception />} path="/bloodReception" />
-                <Route element={<RoutineDispense />} path="/routineDispense" />
+                <Route element={<BloodTypesDonors />} path="/bloodtypeDonors" />
+            <Route element={<RoutineDispense />} path="/routineDispense" />
                 <Route element={<DonationForm />} path="/donation" />
                 <Route
                   element={<EmergencyDispense />}

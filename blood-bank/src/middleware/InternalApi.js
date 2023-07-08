@@ -295,3 +295,17 @@ export const getLogs = async () => {
     throw new Error(error.message);
   }
 };
+
+//------------------- Email methods ----------------------------------------------------------------
+
+export const sendUrgentEmail = async () => {
+  try {
+    const response = await axios.post(
+      "http://localhost:8080/emailApi/urgentEmail"
+      );
+    return response.data;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
