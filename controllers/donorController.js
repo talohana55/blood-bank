@@ -1,6 +1,45 @@
 const Donor = require("../models/donor-model");
 const { saveLog } = require("./logger");
-
+const generateToken = require("../common/generateToken.js");
+//Create a new donor
+exports.createDonor = async (req, res) => {
+  try {
+    const {
+      donorID,
+      fullName,
+      email,
+      address,
+      date,
+      creditCard,
+      healthCondition,
+    } = req.body;
+    const newDonor = new Donor({
+      donorID,
+      fullName,
+      type: "Donor",
+      email,
+      address,
+      date,
+      creditCard,
+      healthCondition,
+    });
+    const obj = {
+      _id: newDonor.donorID,
+      email: newDonor.email,
+      type: "Donor",
+    };
+    const token = await generateToken(obj);
+    const savedDonor = await newDonor.save();
+    saveLog("createDonor", `Donor id: ${savedDonor.donorID}`);
+    res.status(201).json({
+      message: "Donor created successfully",
+      donor: savedDonor,
+      token,
+    });
+  } catch (err) {
+    res.status(400).json({ message: err.message });
+  }
+};
 // Get all donors
 exports.getAllDonors = async (req, res) => {
   try {
@@ -27,39 +66,6 @@ exports.getDonor = async (req, res) => {
     }
   } catch (err) {
     res.status(404).json({ message: err.message });
-  }
-};
-
-//Create a new donor
-exports.createDonor = async (req, res) => {
-  try {
-    const {
-      donorID,
-      fullName,
-      email,
-      address,
-      date,
-      creditCard,
-      healthCondition,
-    } = req.body;
-    const newDonor = new Donor({
-      donorID,
-      fullName,
-      email,
-      address,
-      date,
-      creditCard,
-      healthCondition,
-    });
-    // Save the new donor in the database
-    const savedDonor = await newDonor.save();
-    saveLog("createDonor", `Donor id: ${savedDonor.donorID}`);
-    res.status(201).json({
-      message: "Donor created successfully",
-      donor: savedDonor,
-    });
-  } catch (err) {
-    res.status(400).json({ message: err.message });
   }
 };
 
