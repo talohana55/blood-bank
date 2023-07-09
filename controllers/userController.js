@@ -1,135 +1,51 @@
 const User = require("../models/user-model");
-const bcrypt = require("bcrypt");
+const generateToken = require("../common/generateToken.js");
 
-const BCRYT_SALT_ROUNDS = 10;
 
-exports.registerAdminUser = async (req, res) => {
+exports.register = async (req, res) => {
+  const { userName, password, type } = req.body;
   try {
-    const username = req.body.username;
-    const password = req.body.password;
-    const user = User.findOne({ username: username });
-    if (!user) {
-      bcrypt.hash(password, BCRYT_SALT_ROUNDS).then((hashedPassword) => {
-        const user = new User({
-          username: username,
-          password: hashedPassword,
-          userType: "Admin",
-        });
-        user.save();
-        res.status(200).json(user);
-      });
-    } else {
-      res.status(400).json({ message: err.message });
+    const existingUser = await User.findOne({ userName: userName });
+    if (existingUser) {
+      return res
+        .status(401)
+        .json({ success: false, error: "User already exists" });
+    }
+
+    const user = await User.create({
+      userName,
+      password,
+      type,
+    });
+    if (user) {
+      const obj = {
+        _id: user._id,
+        type: user.userType,
+      };
+      const token = await generateToken(obj);
+      return res.status(200).json({ success: true, user, token });
     }
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(500).send({ success: false, error: err.message });
   }
 };
 
-exports.registerUserUser = async (req, res) => {
+exports.login = async (req, res) => {
+  const { userName, password } = req.body;
   try {
-    
-    const username = req.body.username;
-    const password = req.body.password;
-    const user = User.findOne({ username: username });
-    if (!user) {
-      bcrypt.hash(password, BCRYT_SALT_ROUNDS).then((hashedPassword) => {
-        const user = new User({
-          username: username,
-          password: hashedPassword,
-          userType: "User",
-        });
-        user.save();
-        res.status(200).json(user);
-      });
-    } else {
-      res.status(400).json({ message: err.message });
+    const user = await User.findOne({ userName, userType: "User" });
+    if (!user || !(await user.comparePassword(password))) {
+      return res
+        .status(401)
+        .json({ success: false, error: "Invalid User Name or Password" });
     }
+    const obj = {
+      _id: user._id,
+      type: user.userType,
+    };
+    const token = await generateToken(obj);
+    return res.status(200).json({ success: true, user, token });
   } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-};
-
-exports.registerStudentUser = async (req, res) => {
-  try {
-    const username = req.body.username;
-    const password = req.body.password;
-    const user = User.findOne({ username: username });
-    if (!user) {
-      bcrypt.hash(password, BCRYT_SALT_ROUNDS).then((hashedPassword) => {
-        const user = new User({
-          username: username,
-          password: hashedPassword,
-          userType: "Student",
-        });
-        user.save();
-        res.status(200).json(user);
-      });
-    } else {
-      res.status(400).json({ message: err.message });
-    }
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-};
-
-
-exports.loginAdminUser = async (req, res) => {
-  try {
-    const username = req.body.username;
-    const password = req.body.password;
-    const user = User.findOne({ username: username, userType: "Admin" });
-    if (!user) {
-      res.status(400).json({ message: err.message });
-    } else {
-      const samePassword = bcrypt.compare(password, user.password);
-      if (!samePassword) {
-        res.status(400).json({ message: err.message });
-      } else {
-        res.status(200).json(user);
-      }
-    }
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-};
-
-exports.loginUserUser = async (req, res) => {
-  try {
-    const username = req.body.username;
-    const password = req.body.password;
-    const user = User.findOne({ username: username, userType: "User" });
-    if (!user) {
-      res.status(400).json({ message: err.message });
-    } else {
-      const samePassword = bcrypt.compare(password, user.password);
-      if (!samePassword) {
-        res.status(400).json({ message: err.message });
-      } else {
-        res.status(200).json(user);
-      }
-    }
-  } catch (err) {
-    res.status(400).json({ message: err.message });
-  }
-};
-
-exports.loginStudentUser = async (req, res) => {
-  try {
-    const username = req.body.username;
-    const password = req.body.password;
-    const user = User.findOne({ username: username, userType: "Student" });
-    if (!user) {
-      res.status(400).json({ message: err.message });
-    } else {
-      const samePassword = bcrypt.compare(password, user.password);
-      if (!samePassword) {
-        res.status(400).json({ message: err.message });
-      } else {
-        res.status(200).json(user);
-      }
-    }
-  } catch (err) {
-    res.status(400).json({ message: err.message });
+    return res.status(500).json({ success: false, error: err.message });
   }
 };

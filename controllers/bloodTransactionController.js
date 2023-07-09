@@ -20,7 +20,7 @@ exports.getAllBloodTransaction = async (req, res) => {
 exports.getBloodTransactionById = async (req, res) => {
   try {
     const { id } = req.body;
-    const bloodTransaction = await BloodTransaction.findOne({ cid: id });
+    const bloodTransaction = await BloodTransaction.findOne({ _id: id });
     if (!bloodTransaction) {
       res.status(200).json(bloodTransaction);
     } else {
