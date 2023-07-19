@@ -1,23 +1,22 @@
+const db = require("../common/db.js");
 const mongoose = require("mongoose");
 const bcrypt = require("bcrypt");
+
 const UserScheme = new mongoose.Schema(
   {
     userName: {
       type: String,
-      unique: true,
       required: true,
     },
     password: {
       type: String,
-      unique: false,
       required: true,
     },
     userType: {
       type: String,
       enum: ["Admin", "User", "Student"],
       default: "User",
-      required: true,
-      unique: false,
+      required: false,
     },
   },
   { timestamps: true }
@@ -46,5 +45,6 @@ UserScheme.methods.comparePassword = async function (password) {
   }
 };
 
-const User = mongoose.model("User", UserScheme, "User");
+const User = db.model("User", UserScheme);
+
 module.exports = User;

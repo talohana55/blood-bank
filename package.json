@@ -19,7 +19,7 @@
     "https": "^1.0.0",
     "jsonwebtoken": "^9.0.1",
     "mongodb": "^5.1.0",
-    "mongoose": "^6.10.0",
+    "mongoose": "^6.11.4",
     "nodemon": "^2.0.20",
     "path": "^0.12.7"
   },

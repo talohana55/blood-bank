@@ -1,14 +1,28 @@
 import React, { useState } from "react";
+import { login } from "../middleware/InternalApi.js";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
   const [loginData, setLoginData] = useState({
     userName: "",
     password: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Perform login logic here
+    try {
+      const response = await login(loginData);
+      if (response.success) {
+        localStorage.setItem("token", response.token);
+        navigate("/");
+      } else {
+        setError(response.error);
+      }
+    } catch (error) {
+      setError(error.message);
+    }
   };
 
   const handleInputChange = (e) => {
@@ -43,6 +57,7 @@ const LoginPage = () => {
         </div>
         <button type="submit">Login</button>
       </form>
+      {error && <p>{error}</p>}
     </div>
   );
 };

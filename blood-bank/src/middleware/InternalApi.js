@@ -295,3 +295,27 @@ export const getLogs = async () => {
     throw new Error(error.message);
   }
 };
+
+export const login = async (user) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:8080/api/auth/login",
+      user
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
+export const register = async (user) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:8080/api/auth/register",
+      user
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
