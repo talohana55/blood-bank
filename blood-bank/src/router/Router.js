@@ -11,9 +11,9 @@ import RoutineDispense from "../pages/routineDispense.js";
 const RouterConfig = () => {
   return (
     <Routes>
-      <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
+      <Route path="/" element={<HomePage />} />
       <Route path="/blood-reception" element={<BloodReception />} />
       <Route path="/emergency-dispense" element={<EmergencyDispense />} />
       <Route path="/donation-form" element={<DonationForm />} />

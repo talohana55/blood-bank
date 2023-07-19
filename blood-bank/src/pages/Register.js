@@ -1,14 +1,28 @@
 import React, { useState } from "react";
+import { register } from "../middleware/InternalApi.js";
+import { useNavigate } from "react-router-dom";
 
 const RegisterPage = () => {
+  const navigate = useNavigate();
+  const [error, setError] = useState("");
   const [registerData, setRegisterData] = useState({
     userName: "",
     password: "",
   });
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Perform registration logic here
+    try {
+      const response = await register(registerData);
+      if (response.success) {
+        localStorage.setItem("token", response.token);
+        navigate("/");
+      } else {
+        setError(response.error);
+      }
+    } catch (error) {
+      setError(error.error);
+    }
   };
 
   const handleInputChange = (e) => {
@@ -41,9 +55,10 @@ const RegisterPage = () => {
             onChange={handleInputChange}
           />
         </div>
-    
+
         <button type="submit">Register</button>
       </form>
+      {error && <p>{error}</p>}
     </div>
   );
 };
