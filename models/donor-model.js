@@ -7,6 +7,11 @@ const DonorSchema = new mongoose.Schema(
       unique: true,
       required: true,
     },
+    type: {
+      type: String,
+      defaultValue: "Donor",
+      required: true,
+    },
     fullName: {
       type: String,
       required: true,

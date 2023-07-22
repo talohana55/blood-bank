@@ -20,9 +20,24 @@ exports.getAllBloodTransaction = async (req, res) => {
 exports.getBloodTransactionById = async (req, res) => {
   try {
     const { id } = req.body;
-    const bloodTransaction = await BloodTransaction.findOne({ cid: id });
+    const bloodTransaction = await BloodTransaction.findOne({ _id: id });
     if (!bloodTransaction) {
       res.status(200).json(bloodTransaction);
+    } else {
+      res.status(200).json();
+    }
+  } catch (err) {
+    res.status(404).json({ message: err.message });
+  }
+};
+
+// GET all blood transactions by Donor Id
+exports.getBloodTransactionByUserId = async (req, res) => {
+  try {
+    const { donorId } = req.body;
+    const bloodTransactions = await BloodTransaction.find({ donorID: donorId });
+    if (!bloodTransactions) {
+      res.status(200).json(bloodTransactions);
     } else {
       res.status(200).json();
     }

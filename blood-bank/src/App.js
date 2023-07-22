@@ -1,47 +1,37 @@
-import React from "react";
-import { HashRouter as Router, Route, Routes } from "react-router-dom";
-import "./App.css";
-import BloodReception from "./Routes/BloodReception";
-import RoutineDispense from "./Routes/routineDispense";
-import EmergencyDispense from "./Routes/EmergencyDispense";
-import DonationForm from "./Routes/DonationForm";
-import HomePage from "./Routes/HomePage";
-import BloodTypesDonors from "./Routes/BloodTypesDonors";
+import React, { useEffect } from "react";
+import {
+  BrowserRouter as Router,
+  useNavigate,
+  useLocation,
+} from "react-router-dom";
 import NavBar from "./components/NavBar";
+import RouterConfig from "./router/Router.js";
+import "./App.css";
 
-function App() {
-  // Assume we have a variable `userType` that determines the user type (e.g., "donor" or "user")
-  const userType = "donor"; // Example value, replace with your logic to determine the user type
+const CheckToken = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const token = localStorage.getItem("token");
 
+  useEffect(() => {
+    if (!token && !["/login", "/register"].includes(location.pathname)) {
+      navigate("/login");
+    }
+  }, [token, navigate, location.pathname]);
+
+  return null;
+};
+
+const App = () => {
   return (
-    <Router>
-      <div className="app">
-        <NavBar className=".navbar" />
-        <main className="container-app">
-          <Routes>
-            <Route element={<HomePage />} path="/" />
-
-            {userType === "donor" && (
-              <Route element={<DonationForm />} path="/donation" />
-            )}
-
-            {userType === "donor" && (
-              <>
-                <Route element={<BloodReception />} path="/bloodReception" />
-                <Route element={<BloodTypesDonors />} path="/bloodtypeDonors" />
-            <Route element={<RoutineDispense />} path="/routineDispense" />
-                <Route element={<DonationForm />} path="/donation" />
-                <Route
-                  element={<EmergencyDispense />}
-                  path="/emergencyDispense"
-                />
-              </>
-            )}
-          </Routes>
-        </main>
-      </div>
-    </Router>
+    <div className="container-app">
+      <Router>
+        <NavBar />
+        <CheckToken />
+        <RouterConfig />
+      </Router>
+    </div>
   );
-}
+};
 
 export default App;

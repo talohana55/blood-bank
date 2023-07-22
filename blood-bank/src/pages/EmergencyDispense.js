@@ -3,7 +3,7 @@ import "../Style/BloodReception.css";
 import {
   displayONegativeBloodUnit,
   getONegativeBloodUnit,
-  sendUrgentEmail
+  // sendUrgentEmail
 } from "../middleware/InternalApi";
 const EmergencyDispense = () => {
   const [emergencyBlood, setEmergencyBlood] = useState(null);
@@ -41,7 +41,7 @@ const EmergencyDispense = () => {
 
   return (
     <div className="form-div">
-      <button onClick={sendUrgentEmail}>send urgent donations email</button>
+      {/* <button onClick={sendUrgentEmail}>send urgent donations email</button> */}
       <h2>Emergency Dispense</h2>
       <form className="form" onSubmit={handleSubmit}>
         <span>

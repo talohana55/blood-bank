@@ -175,6 +175,28 @@ export const getAllDonors = async () => {
   }
 };
 
+// GET all donors by blood type
+export const getDonorsByBloodType = async (bloodType) => {
+  try {
+    let donorsId = [];
+    console.log("Blood Type is: " + bloodType);
+    const bloodTransactions = (await getAllBloodTransaction()).filter(
+      (transaction) => transaction.bloodType === bloodType
+    );
+    bloodTransactions.forEach((transaction) => {
+      if (!donorsId.includes(transaction.donorID)) {
+        donorsId.push(transaction.donorID);
+      }
+    });
+    donorsId = [124814521, 357789456, 123456789];
+    const donors = donorsId.map((id) => getDonor(id));
+    console.log(donors);
+    return donors;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};
+
 // GET a single blood transaction by ID
 export const getDonor = async (id) => {
   try {
@@ -296,16 +318,26 @@ export const getLogs = async () => {
   }
 };
 
-//------------------- Email methods ----------------------------------------------------------------
-
-export const sendUrgentEmail = async () => {
+export const login = async (user) => {
   try {
     const response = await axios.post(
-      "http://localhost:8080/emailApi/urgentEmail"
-      );
+      "http://localhost:8080/api/auth/login",
+      user
+    );
     return response.data;
   } catch (error) {
     throw new Error(error.message);
   }
 };
 
+export const register = async (user) => {
+  try {
+    const response = await axios.post(
+      "http://localhost:8080/api/auth/register",
+      user
+    );
+    return response.data;
+  } catch (error) {
+    throw new Error(error.message);
+  }
+};

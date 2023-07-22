@@ -21,8 +21,7 @@ const donorsRoutes = require("./routes/donorRoutes");
 const hospitalRoutes = require("./routes/hospitalRoutes");
 const hospitalBloodRoutes = require("./routes/hospitalBloodRoutes");
 const loggerRoutes = require("./routes/loggerRoutes");
-const emailRoutes = require("./routes/emailRoutes");
-const bloodTypeDonorsRoutes = require("./routes/bloodTypeDonorsRoutes");
+const authRoutes = require("./routes/authRoutes");
 
 // Use routes
 app.use(bloodUnitsRoutes);
@@ -31,8 +30,7 @@ app.use(donorsRoutes);
 app.use(hospitalRoutes);
 app.use(hospitalBloodRoutes);
 app.use(loggerRoutes);
-app.use(emailRoutes); 
-app.use(bloodTypeDonorsRoutes);
+app.use(authRoutes);
 
 app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
@@ -58,6 +56,5 @@ async function connect() {
   }
 }
 connect();
-
 
 app.listen(PORT, console.log(`The server is running on port: ${PORT}`));

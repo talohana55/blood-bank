@@ -5,7 +5,7 @@ const {
     getBloodTransactionById,
     createBloodTransaction,
     updateBloodTransactionById,
-    deleteBloodTransactionById
+    deleteBloodTransactionById,
 } = require("../controllers/bloodTransactionController");
 
 
