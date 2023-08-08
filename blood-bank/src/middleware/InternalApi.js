@@ -178,20 +178,22 @@ export const getAllDonors = async () => {
 // GET all donors by blood type
 export const getDonorsByBloodType = async (bloodType) => {
   try {
-    let donorsId = [];
     console.log("Blood Type is: " + bloodType);
-    const bloodTransactions = (await getAllBloodTransaction()).filter(
-      (transaction) => transaction.bloodType === bloodType
+    const response = await axios.get(
+      `http://localhost:8080/api/bloodTransaction/${bloodType}`
     );
-    bloodTransactions.forEach((transaction) => {
-      if (!donorsId.includes(transaction.donorID)) {
-        donorsId.push(transaction.donorID);
-      }
-    });
-    donorsId = [124814521, 357789456, 123456789];
-    const donors = donorsId.map((id) => getDonor(id));
-    console.log(donors);
-    return donors;
+    return response.data;
+    // const bloodTransactions = (await getAllBloodTransaction()).filter(
+    //   (transaction) => transaction.bloodType === bloodType
+    // );
+    // bloodTransactions.forEach((transaction) => {
+    //   if (!donorsId.includes(transaction.donorID)) {
+    //     donorsId.push(transaction.donorID);
+    //   }
+    // });
+    // donorsId = [124814521, 357789456, 123456789];
+    // const donors = donorsId.map((id) => getDonor(id));
+    // console.log(donors);
   } catch (error) {
     throw new Error(error.message);
   }
@@ -200,6 +202,7 @@ export const getDonorsByBloodType = async (bloodType) => {
 // GET a single blood transaction by ID
 export const getDonor = async (id) => {
   try {
+    console.log("Getting donor by ID: " + id);
     const response = await axios.get(
       `http://localhost:8080/api/donor/get/${id}`
     );

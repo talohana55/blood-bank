@@ -46,6 +46,36 @@ exports.getBloodTransactionByUserId = async (req, res) => {
   }
 };
 
+// GET all donors by blood type
+exports.getDonorsByBloodType = async (req, res) => {
+  try {
+    const { bloodType } = req.params;
+    const bloodTransactionsPromise = await BloodTransaction.find({
+      bloodType: bloodType,
+    });
+
+    let donorIds = bloodTransactionsPromise.map(
+      (transaction) => transaction["donorID"]
+    );
+    donorIds = Array.from(new Set(donorIds));
+
+    let promises = donorIds.map((id) =>
+      Donor.find({ donorID: id }).select("donorID fullName email")
+    );
+    let donors = await Promise.all(promises);
+    donors = donors.filter((donor) => donor.length != 0);
+    console.log(donors);
+    if (donors) {
+      res.status(200).json(donors);
+    } else {
+      res.status(200).json([]);
+    }
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: "Internal Server Error" });
+  }
+};
+
 // POST a new blood transaction
 exports.createBloodTransaction = async (req, res) => {
   try {
