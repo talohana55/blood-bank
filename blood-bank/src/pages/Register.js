@@ -8,10 +8,12 @@ const RegisterPage = () => {
   const [registerData, setRegisterData] = useState({
     userName: "",
     password: "",
+    type:"User",
   });
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log(registerData);
     try {
       const response = await register(registerData);
       if (response.success) {
@@ -54,6 +56,25 @@ const RegisterPage = () => {
             value={registerData.password}
             onChange={handleInputChange}
           />
+        </div>
+
+        {/* <div className="form-input">
+          <input
+            type="type"
+            name="type"
+            placeholder="type"
+            value={registerData.type}
+            onChange={handleInputChange}
+          />
+        </div> */}
+
+        <div className="form-input">
+          <select name="type" id="type" value={registerData.type} onChange={handleInputChange}>
+              <option value="User" selected>User</option>
+              <option value="Student" >Student </option>
+              <option value="Admin">Admin</option>
+              <option value="Worker">Worker</option>
+          </select>
         </div>
 
         <button type="submit">Register</button>
