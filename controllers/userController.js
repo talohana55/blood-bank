@@ -4,6 +4,7 @@ const generateToken = require("../common/generateToken.js");
 
 exports.register = async (req, res) => {
   const { userName, password, type } = req.body;
+  console.log("here !!!!"+type);
   try {
     const existingUser = await User.findOne({ userName: userName });
     if (existingUser) {
@@ -15,9 +16,10 @@ exports.register = async (req, res) => {
     const user = await User.create({
       userName,
       password,
-      type,
+      userType:type,
     });
     if (user) {
+      console.log(user);
       const obj = {
         _id: user._id,
         type: user.userType,
