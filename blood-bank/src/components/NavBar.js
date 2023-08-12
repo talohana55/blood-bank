@@ -50,6 +50,9 @@ const NavBar = () => {
             <Nav.Link as={Link} to="/emergency-dispense" className="nav-link">
               Emergency
             </Nav.Link>
+            <Nav.Link as={Link} to="/search" className="nav-link">
+              Search
+            </Nav.Link>
             <Button
               onClick={handleClick}
               disabled={loading}

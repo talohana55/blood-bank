@@ -1,0 +1,23 @@
+.urgent-collect {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding-bottom: 1.15em;
+}
+
+.urgent-collect > input {
+  height: 1em;
+}
+
+.urgent-collect-times {
+  text-align: center;
+}
+
+urgent-collect-times > select {
+    width: 100%;
+    text-align: center;
+}
+
+.urgent-collect-times option {
+    text-align: center;
+}

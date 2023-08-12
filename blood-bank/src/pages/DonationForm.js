@@ -10,10 +10,10 @@ const DonationForm = () => {
     address: "",
     date: "",
     creditCard: {
-      cardNumber: "",
-      cardHolderName: "",
-      expirationDate: "",
-      cvv: "",
+      cardNumber: "123456789258",
+      cardHolderName: "John Doe",
+      expirationDate: "2025-12-12",
+      cvv: "123",
     },
     healthCondition: {
       hasReceivedGrowthHormoneTreatment: false,
@@ -30,33 +30,7 @@ const DonationForm = () => {
       hasEngagedInSexWithHighRiskPartners: false,
     },
   });
-  const fakeDonorInfo = {
-    donorID: "D123456789",
-    fullName: "John Doe",
-    email: "johndoe@example.com",
-    address: "123 Main Street, City",
-    date: "2023-05-28",
-    creditCard: {
-      cardNumber: "************1234",
-      cardHolderName: "John Doe",
-      expirationDate: "12/25",
-      cvv: "***",
-    },
-    healthCondition: {
-      hasReceivedGrowthHormoneTreatment: false,
-      hasFamilyNeurologicalDisease: true,
-      hasStayedInUK: false,
-      hasReceivedPaymentForSex: false,
-      hasPartnerWithHIV: true,
-      isHemophiliaPatient: false,
-      hasUsedIllegalDrugs: true,
-      hasUsedInjectedOrSnortedDrugs: true,
-      isCarrierOfHepatitis: false,
-      hasStayedInHighPrevalenceAIDSCountry: true,
-      hasEngagedInSexBetweenMen: false,
-      hasEngagedInSexWithHighRiskPartners: true,
-    },
-  };
+ 
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -67,7 +41,8 @@ const DonationForm = () => {
   };
 
   const handleHealthConditionChange = (e) => {
-    const { name, value } = e.target;
+    const { value } = e.target;
+    let name = e.target.name.split(".")[1];
     const parsedValue = value === "true"; // Parse the string value to a boolean
     setDonorInfo((prevState) => ({
       ...prevState,
@@ -79,35 +54,34 @@ const DonationForm = () => {
   };
 
   const handleSubmit = async (e) => {
-    //e.preventDefault();
+    e.preventDefault();
 
-    // // Check if all the medical questionnaire fields are completed
-    // const medicalQuestionnaireFields = Object.values(donorInfo.healthCondition);
-    // const isMedicalQuestionnaireComplete = medicalQuestionnaireFields.every(
-    //   (value) => value
-    // );
+    // Check if all the medical questionnaire fields are completed
+    const medicalQuestionnaireFields = Object.values(donorInfo.healthCondition);
+    medicalQuestionnaireFields.forEach(field => console.log(field));
+    const isMedicalQuestionnaireComplete = medicalQuestionnaireFields.every(
+      (value) => value != null
+    );
 
-    // if (!isMedicalQuestionnaireComplete) {
-    //   // Display an error message or handle the incomplete medical questionnaire scenario
-    //   alert("Please complete the medical questionnaire.");
-    //   return;
-    // }
+    if (!isMedicalQuestionnaireComplete) {
+      // Display an error message or handle the incomplete medical questionnaire scenario
+      alert("Please complete the medical questionnaire.");
+      return;
+    }
     try {
-      const response = await createDonor(fakeDonorInfo); // change this to donorInfo
+      const response = await createDonor(donorInfo); // change this to donorInfo
       alert("Donation request completed successfully!");
       console.log(response);
     } catch (error) {
       alert(error);
     }
 
-    // Submit the donorInfo object to the server or perform any necessary actions
-    console.log(fakeDonorInfo);
   };
 
   return (
     <div className="form-div">
       <h3>Donation Form</h3>
-      <form className="form" onSubmit={handleSubmit} method="post">
+      <form className="form" onSubmit={handleSubmit} >
         <div className="form-input">
           <input
             type="text"
@@ -229,11 +203,8 @@ const DonationForm = () => {
                   id="receivedGrowthHormoneTreatmentYes"
                   name="healthCondition.hasReceivedGrowthHormoneTreatment"
                   value="true"
-                  checked={
-                    donorInfo.healthCondition
-                      .hasReceivedGrowthHormoneTreatment === true
-                  }
                   onChange={handleHealthConditionChange}
+                  
                 />
                 Yes
               </label>
@@ -243,10 +214,6 @@ const DonationForm = () => {
                   id="receivedGrowthHormoneTreatmentNo"
                   name="healthCondition.hasReceivedGrowthHormoneTreatment"
                   value="false"
-                  checked={
-                    donorInfo.healthCondition
-                      .hasReceivedGrowthHormoneTreatment === false
-                  }
                   onChange={handleHealthConditionChange}
                 />
                 No
@@ -265,10 +232,6 @@ const DonationForm = () => {
                   id="hasFamilyNeurologicalDiseaseYes"
                   name="healthCondition.hasFamilyNeurologicalDisease"
                   value="true"
-                  checked={
-                    donorInfo.healthCondition.hasFamilyNeurologicalDisease ===
-                    true
-                  }
                   onChange={handleHealthConditionChange}
                 />
                 Yes
@@ -279,10 +242,6 @@ const DonationForm = () => {
                   id="hasFamilyNeurologicalDiseaseNo"
                   name="healthCondition.hasFamilyNeurologicalDisease"
                   value="false"
-                  checked={
-                    donorInfo.healthCondition.hasFamilyNeurologicalDisease ===
-                    false
-                  }
                   onChange={handleHealthConditionChange}
                 />
                 No
@@ -302,7 +261,6 @@ const DonationForm = () => {
                   id="hasStayedInUKYes"
                   name="healthCondition.hasStayedInUK"
                   value="true"
-                  checked={donorInfo.healthCondition.hasStayedInUK === true}
                   onChange={handleHealthConditionChange}
                 />
                 Yes
@@ -313,7 +271,6 @@ const DonationForm = () => {
                   id="hasStayedInUKNo"
                   name="healthCondition.hasStayedInUK"
                   value="false"
-                  checked={donorInfo.healthCondition.hasStayedInUK === false}
                   onChange={handleHealthConditionChange}
                 />
                 No
@@ -332,9 +289,6 @@ const DonationForm = () => {
                   id="receivedPaymentForSexYes"
                   name="healthCondition.hasReceivedPaymentForSex"
                   value="true"
-                  checked={
-                    donorInfo.healthCondition.hasReceivedPaymentForSex === true
-                  }
                   onChange={handleHealthConditionChange}
                 />
                 Yes
@@ -345,9 +299,6 @@ const DonationForm = () => {
                   id="receivedPaymentForSexNo"
                   name="healthCondition.hasReceivedPaymentForSex"
                   value="false"
-                  checked={
-                    donorInfo.healthCondition.hasReceivedPaymentForSex === false
-                  }
                   onChange={handleHealthConditionChange}
                 />
                 No
@@ -366,7 +317,6 @@ const DonationForm = () => {
                   id="partnerWithHIVYes"
                   name="healthCondition.hasPartnerWithHIV"
                   value="true"
-                  checked={donorInfo.healthCondition.hasPartnerWithHIV === true}
                   onChange={handleHealthConditionChange}
                 />
                 Yes
@@ -377,9 +327,6 @@ const DonationForm = () => {
                   id="partnerWithHIVNo"
                   name="healthCondition.hasPartnerWithHIV"
                   value="false"
-                  checked={
-                    donorInfo.healthCondition.hasPartnerWithHIV === false
-                  }
                   onChange={handleHealthConditionChange}
                 />
                 No
@@ -398,9 +345,6 @@ const DonationForm = () => {
                   id="hemophiliaPatientYes"
                   name="healthCondition.isHemophiliaPatient"
                   value="true"
-                  checked={
-                    donorInfo.healthCondition.isHemophiliaPatient === true
-                  }
                   onChange={handleHealthConditionChange}
                 />
                 Yes
@@ -411,9 +355,6 @@ const DonationForm = () => {
                   id="hemophiliaPatientNo"
                   name="healthCondition.isHemophiliaPatient"
                   value="false"
-                  checked={
-                    donorInfo.healthCondition.isHemophiliaPatient === false
-                  }
                   onChange={handleHealthConditionChange}
                 />
                 No
@@ -432,9 +373,6 @@ const DonationForm = () => {
                   id="usedIllegalDrugsYes"
                   name="healthCondition.hasUsedIllegalDrugs"
                   value="true"
-                  checked={
-                    donorInfo.healthCondition.hasUsedIllegalDrugs === true
-                  }
                   onChange={handleHealthConditionChange}
                 />
                 Yes
@@ -445,9 +383,6 @@ const DonationForm = () => {
                   id="usedIllegalDrugsNo"
                   name="healthCondition.hasUsedIllegalDrugs"
                   value="false"
-                  checked={
-                    donorInfo.healthCondition.hasUsedIllegalDrugs === false
-                  }
                   onChange={handleHealthConditionChange}
                 />
                 No
@@ -466,10 +401,6 @@ const DonationForm = () => {
                   id="usedInjectedOrSnortedDrugsYes"
                   name="healthCondition.hasUsedInjectedOrSnortedDrugs"
                   value="true"
-                  checked={
-                    donorInfo.healthCondition.hasUsedInjectedOrSnortedDrugs ===
-                    true
-                  }
                   onChange={handleHealthConditionChange}
                 />
                 Yes
@@ -480,10 +411,6 @@ const DonationForm = () => {
                   id="usedInjectedOrSnortedDrugsNo"
                   name="healthCondition.hasUsedInjectedOrSnortedDrugs"
                   value="false"
-                  checked={
-                    donorInfo.healthCondition.hasUsedInjectedOrSnortedDrugs ===
-                    false
-                  }
                   onChange={handleHealthConditionChange}
                 />
                 No
@@ -503,9 +430,6 @@ const DonationForm = () => {
                   id="carrierOfHepatitisYes"
                   name="healthCondition.isCarrierOfHepatitis"
                   value="true"
-                  checked={
-                    donorInfo.healthCondition.isCarrierOfHepatitis === true
-                  }
                   onChange={handleHealthConditionChange}
                 />
                 Yes
@@ -516,9 +440,6 @@ const DonationForm = () => {
                   id="carrierOfHepatitisNo"
                   name="healthCondition.isCarrierOfHepatitis"
                   value="false"
-                  checked={
-                    donorInfo.healthCondition.isCarrierOfHepatitis === false
-                  }
                   onChange={handleHealthConditionChange}
                 />
                 No
@@ -539,10 +460,6 @@ const DonationForm = () => {
                   id="stayedInHighPrevalenceAIDSCountryYes"
                   name="healthCondition.hasStayedInHighPrevalenceAIDSCountry"
                   value="true"
-                  checked={
-                    donorInfo.healthCondition
-                      .hasStayedInHighPrevalenceAIDSCountry === true
-                  }
                   onChange={handleHealthConditionChange}
                 />
                 Yes
@@ -553,10 +470,6 @@ const DonationForm = () => {
                   id="stayedInHighPrevalenceAIDSCountryNo"
                   name="healthCondition.hasStayedInHighPrevalenceAIDSCountry"
                   value="false"
-                  checked={
-                    donorInfo.healthCondition
-                      .hasStayedInHighPrevalenceAIDSCountry === false
-                  }
                   onChange={handleHealthConditionChange}
                 />
                 No
@@ -575,9 +488,6 @@ const DonationForm = () => {
                   id="engagedInSexBetweenMenYes"
                   name="healthCondition.hasEngagedInSexBetweenMen"
                   value="true"
-                  checked={
-                    donorInfo.healthCondition.hasEngagedInSexBetweenMen === true
-                  }
                   onChange={handleHealthConditionChange}
                 />
                 Yes
@@ -588,10 +498,6 @@ const DonationForm = () => {
                   id="engagedInSexBetweenMenNo"
                   name="healthCondition.hasEngagedInSexBetweenMen"
                   value="false"
-                  checked={
-                    donorInfo.healthCondition.hasEngagedInSexBetweenMen ===
-                    false
-                  }
                   onChange={handleHealthConditionChange}
                 />
                 No
@@ -612,10 +518,6 @@ const DonationForm = () => {
                   id="engagedInSexWithHighRiskPartnersYes"
                   name="healthCondition.hasEngagedInSexWithHighRiskPartners"
                   value="true"
-                  checked={
-                    donorInfo.healthCondition
-                      .hasEngagedInSexWithHighRiskPartners === true
-                  }
                   onChange={handleHealthConditionChange}
                 />
                 Yes
@@ -626,10 +528,6 @@ const DonationForm = () => {
                   id="engagedInSexWithHighRiskPartnersNo"
                   name="healthCondition.hasEngagedInSexWithHighRiskPartners"
                   value="false"
-                  checked={
-                    donorInfo.healthCondition
-                      .hasEngagedInSexWithHighRiskPartners === false
-                  }
                   onChange={handleHealthConditionChange}
                 />
                 No
@@ -638,7 +536,7 @@ const DonationForm = () => {
           </div>
         </div>
 
-        <button type="submit">Submit</button>
+        <button type="button" onClick={handleSubmit}>Submit</button>
       </form>
     </div>
   );

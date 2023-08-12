@@ -7,6 +7,7 @@ import EmergencyDispense from "../pages/EmergencyDispense.js";
 import HomePage from "../pages/HomePage.js";
 import DonationForm from "../pages/DonationForm.js";
 import RoutineDispense from "../pages/routineDispense.js";
+import SearchDonors from "../pages/searchDonors.js";
 
 const RouterConfig = () => {
   return (
@@ -18,6 +19,7 @@ const RouterConfig = () => {
       <Route path="/emergency-dispense" element={<EmergencyDispense />} />
       <Route path="/donation-form" element={<DonationForm />} />
       <Route path="/routine-dispense" element={<RoutineDispense />} />
+      <Route path="/search" element={<SearchDonors />} />
     </Routes>
   );
 };

@@ -5,7 +5,8 @@ const {
     getBloodTransactionById,
     createBloodTransaction,
     updateBloodTransactionById,
-    deleteBloodTransactionById
+    deleteBloodTransactionById,
+    getDonorsByBloodType: getBloodTransactionByBloodType
 } = require("../controllers/bloodTransactionController");
 
 
@@ -16,6 +17,7 @@ router.route("/api/bloodTransaction/get/id").get(getBloodTransactionById);
 router.route("/api/bloodTransaction/create").post(createBloodTransaction);
 router.route("/api/bloodTransaction/:id").put(updateBloodTransactionById);
 router.route("/api/bloodTransaction/:id").delete(deleteBloodTransactionById);
+router.route("/api/bloodTransaction/:bloodType").get(getBloodTransactionByBloodType);
 
 
 module.exports = router;

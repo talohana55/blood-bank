@@ -1,6 +1,7 @@
 const Log = require("../models/log-model");
 const fs = require("fs");
 const path = require("path");
+const mongoose = require("mongoose");
 
 exports.saveLog = async (action, args) => {
   const log = new Log({

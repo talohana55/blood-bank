@@ -295,3 +295,26 @@
 28-4-2023 22:15:59: Function:createDonor, Arguments:Donor id: D123456789
 28-4-2023 23:29:43: Function:createDonor, Arguments:Donor id: 357789456
 8-6-2023 22:47:10: Function:createDonor, Arguments:Donor id: 123456789
+15-4-2023 17:9:28: Function:createBloodTransaction, Arguments:donor id: 456123789, blood type: A+
+15-4-2023 18:23:4: Function:displayONegativeBloodUnit, Arguments:
+15-4-2023 18:23:4: Function:displayONegativeBloodUnit, Arguments:
+15-4-2023 18:23:5: Function:displayONegativeBloodUnit, Arguments:
+15-4-2023 18:23:6: Function:displayONegativeBloodUnit, Arguments:
+15-4-2023 18:23:12: Function:createHospitalBlood, Arguments:updated Blood Unit: A+
+15-4-2023 18:23:12: Function:createHospitalBlood, Arguments:Blood type: A+, Hospital code: 2
+15-4-2023 19:4:25: Function:createHospitalBlood, Arguments:updated Blood Unit type: AB+, units: 5
+15-4-2023 19:4:25: Function:createHospitalBlood, Arguments:Blood Unit type: AB+, units: 15, hospital code: 3
+15-4-2023 19:4:41: Function:addBloodUnitByType, Arguments:Blood Unit type: B+, quantity: 8
+15-4-2023 19:4:41: Function:createBloodTransaction, Arguments:Donor id: 456123789 ,Blood Type: B+, quantity: 8
+28-4-2023 20:3:28: Function:createDonor, Arguments:Donor id: D123456
+28-4-2023 21:43:25: Function:createDonor, Arguments:Donor id: 307833185
+28-4-2023 21:48:2: Function:createDonor, Arguments:Donor id: 307833177
+28-4-2023 21:53:35: Function:createDonor, Arguments:Donor id: 206781452
+28-4-2023 22:0:26: Function:createDonor, Arguments:Donor id: 124814521
+28-4-2023 22:1:14: Function:createDonor, Arguments:Donor id: 128514521
+28-4-2023 22:2:43: Function:createDonor, Arguments:Donor id: 124818521
+28-4-2023 22:14:55: Function:createDonor, Arguments:Donor id: D123456789
+28-4-2023 22:15:35: Function:createDonor, Arguments:Donor id: D123456789
+28-4-2023 22:15:59: Function:createDonor, Arguments:Donor id: D123456789
+28-4-2023 23:29:43: Function:createDonor, Arguments:Donor id: 357789456
+8-6-2023 22:47:10: Function:createDonor, Arguments:Donor id: 123456789

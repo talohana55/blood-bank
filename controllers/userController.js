@@ -1,4 +1,4 @@
-const User = require("../models/user-model");
+const User = require("../models/user-model").default;
 const generateToken = require("../common/generateToken.js");
 
 
